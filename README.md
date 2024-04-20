@@ -1,2 +1,2 @@
 # wdd131
-[Dynamic Web Fundamentals](index.html)
+[Dynamic Web Fundamentals](https://bdsbyui.github.io/wdd131/)
