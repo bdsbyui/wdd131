@@ -1,11 +1,28 @@
 body {
+    padding: 42px 36px;
     font-family: minion-pro, serif;
 }
-div {
+.container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 922px;
+    padding-bottom: 95.785%;
+}
+.content {
     border: thin solid #aaa;
-    margin: 50px 36px;
-    padding: 82px 159px 40px;
-    max-width: 602px;
+    display: grid;
+    grid-template-columns: 4fr 15fr 4fr;
+    grid-template-rows: 2fr 22fr 1fr;
+}
+.text {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    padding: 11px 0px 5px;
 }
 header {
     border-bottom-color: #ddd;
@@ -53,13 +70,3 @@ img {
     min-width: 36px;
     width: 150px;
 }
-/* 
- - font-stretch: normal, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
- - font-size-adjust: 0.5;
- - line-height: 1.5;
- - letter-spacing: 1px;
- - word-spacing: 2px;
- - text-transform: none, capitalize, uppercase, lowercase
- - text-decoration: none, underline, overline, line-through
- - text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-*/
