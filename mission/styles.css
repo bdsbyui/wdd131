@@ -1,11 +1,58 @@
+/* wdd131/mission/styles.css - Style sheet for Mission Statement Part I */
+
+/* Global styles */
 body {
     padding: 42px 36px;
-    font-family: minion-pro, serif;
 }
+header {
+    border-bottom: thin solid #ddd;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+main {
+    font-size: 15pt;
+    line-height: 30px;
+    margin: 48px 0px;
+    padding-right: 5px;
+}
+footer {
+    padding: 12px 0px;
+    text-align: center;
+}
+
+/* HTML selectors */
+h1 {
+    font-family: minion-pro-display, serif;
+    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: 23px;
+}
+h2 {
+    color: #006eb6;
+    font-size: 16px;
+    margin: 3px 0px;
+}
+p {
+    margin: 19px 0px;
+}
+p:nth-of-type(2) {
+    font-style: italic;
+}
+li {
+    margin: 20px 0px;
+}
+img {
+    height: auto;
+    min-width: 36px;
+    width: 150px;
+}
+
+/* Class selectors */
 .container {
     position: relative;
-    overflow: hidden;
     width: 100%;
+    overflow: hidden;
 }
 .wrapper {
     position: relative;
@@ -23,50 +70,8 @@ body {
     grid-column: 2/3;
     grid-row: 2/3;
     padding: 11px 0px 5px;
+    font-family: minion-pro, serif;
 }
-header {
-    border-bottom-color: #ddd;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    text-align: center;
-    text-transform: uppercase;
-}
-h1 {
-    font-family: minion-pro-display, serif;
-    font-size: 40px;
+.no-bold {
     font-weight: normal;
-    letter-spacing: 4px;
-    margin-top: 0px;
-    margin-bottom: 23px;
-}
-h2 {
-    color: #006eb6;
-    font-size: 16px;
-    font-weight: normal;
-    letter-spacing: 4px;
-    margin: 3px 0px;
-}
-main {
-    font-size: 15pt;
-    line-height: 30px;
-    margin: 48px 0px;
-    padding-right: 5px;
-}
-p {
-    margin: 19px 0px;
-}
-p:nth-of-type(2) {
-    font-style: italic;
-}
-li {
-    margin: 20px 0px;
-}
-footer {
-    padding: 12px 0px;
-    text-align: center;
-}
-img {
-    height: auto;
-    min-width: 36px;
-    width: 150px;
 }
