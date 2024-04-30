@@ -1,4 +1,4 @@
-/* wdd131/mission/styles.css - Style sheet for Mission Statement Part I */
+/* wdd131/mission/styles.css - Style sheet for Unit 1's Mission Statement */
 
 /* Global styles */
 body {
@@ -59,12 +59,14 @@ img {
     width: 100%;
     max-width: 922px;
     padding-bottom: 95.785%;
+    text-align: right;
 }
 .content {
     border: thin solid #aaa;
     display: grid;
     grid-template-columns: 4fr 15fr 4fr;
     grid-template-rows: 2fr 22fr 1fr;
+    text-align: left;
 }
 .text {
     grid-column: 2/3;
@@ -74,4 +76,13 @@ img {
 }
 .no-bold {
     font-weight: normal;
+}
+
+
+.dark {
+    background-color: #333;
+    color: #fff;
+}
+.dark h2 {
+    color: #a0d4ed;
 }

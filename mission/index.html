@@ -3,17 +3,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mission Statement I</title>
+  <title>Mission Statement</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <meta name="description" content="
-    Mission Statement Part I is a Unit 1 Prove assigment for BYU-I WDD 131
+    Mission Statement is the Unit 1 Prove assigment for BYU-I WDD 131
   ">
   <meta name="author" content="Bryant Smith">
+  <script src="mission.js" defer></script>
 </head>
 <body>
   <div class="container">
     <div class="wrapper">
+      <label for="theme">Select theme:</label>
+      <select id="theme">
+        <option value="light">light</option>
+        <option value="dark">dark</option>
+      </select>
       <div class="content">
         <div class="text">
           <header>
@@ -51,7 +57,9 @@
               </li>
             </ol>
           </main>
-          <footer><img alt="BYU-I logo" src="byui-logo_blue.webp"></footer>
+          <footer>
+            <img id="logo" alt="BYU-I logo" src="byui-logo_blue.webp">
+          </footer>
         </div>
       </div>
     </div>
