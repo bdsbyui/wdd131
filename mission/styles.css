@@ -78,7 +78,7 @@ img {
     font-weight: normal;
 }
 
-
+/* Scripted selectors */
 .dark {
     background-color: #333;
     color: #fff;
