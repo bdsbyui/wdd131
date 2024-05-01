@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Mooli&display=swap');
+
+body {
+    background-color: #ebebeb;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+header, footer {
+    background-color: #52489c;
+    color: #ebebeb;
+    padding: 1em 0;
+}
+h1, h2 {
+    font-family: Mooli;
+}
+h1, h3 {
+    font-weight: normal;
+}
+h1 {
+    margin-block-start: 0;
+}
+h2 {
+    font-size: medium;
+}
+h3 {
+    margin-block-end: 0;
+}
+nav a {
+    display: block;
+}
+figure {
+    margin-inline: 1em;
+    max-width: 100%;
+    /* position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    padding-bottom: 100%; */
+}
+img {
+    height: 250px;
+    width: 250px;
+    aspect-ratio: 1 / 1;
+    border: thick solid #fff;
+    box-shadow: 2px 2px #626262;
+}
+/* 
+
+.container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 922px;
+    padding-bottom: 95.785%;
+    text-align: right;
+}
+
+
+You can use the provided image norris-sm.jpeg for the gallery. The design calls for square images, but the provided one is not square! You can set the height and width of the image to be 250px. You will notice that the image becomes distorted however. We don't want this...we would rather have a crop. You can get that by adding the following rule to your CSS for the image: object-fit: cover;
+
+The "Menu" you see will eventually be used as a button to hide and show the navigation links on mobile. In preparation for that make it a button element...then you will need to use CSS to make it look not like a button.
+
+If you want to use your own colors feel free, otherwise continue for the colors used in the mockup.
+
+To specify the fonts and colors which we should use, we can use something called CSS custom properties (CSS variables). These are a great way of keeping track of things like colors, fonts, etc. I think it is far easier to remember something like --primary-color than to remember #52489c
+
+ @import url("https://fonts.googleapis.com/css2?family=family=Mooli&display=swap");
+ :root {
+ --primary-color: #52489c;
+ --secondary-color: #59c3c3;
+ --accent-color: #f45b69;
+ --text-dark: #333;
+ --text-light: #ebebeb;
+ --primary-font: Arial, Helvetica,sans-serif;
+ --secondary-font: Mooli, san-serif;
+ }
+Copy/paste the code above into the top of your CSS file, then to use them in your CSS you would do something like this:
+
+body {
+  font-family: var(--primary-font);
+  font-size: 1.2em;
+}
+a:link,
+a:visited {
+  color: var(--accent-color);
+}
+Continue adding css until your page matches the small screen mockup above.
+
+
+*/
