@@ -20,15 +20,14 @@ document.querySelector(".gallery").addEventListener(
     (event) => {
         const label = event.target.closest("img").src.split("-", 1);
         const path = label + "-full.jpeg";
-        const html = `
+        document.body.insertAdjacentHTML("afterbegin", `
             <div class="viewer">
                 <div class="title-bar"><div class="button-container">
                     <button id="close-button">X</button>
                 </div></div>
                 <img class="modal" alt="${label}" src="${path}">
             </div>
-        `
-        document.body.insertAdjacentHTML("afterbegin", html);
+        `);
         document.querySelector("#close-button").addEventListener(
             "click",
             () => document.querySelector(".viewer").remove()
