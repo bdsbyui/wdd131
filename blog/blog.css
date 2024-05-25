@@ -1,0 +1,98 @@
+/* wdd131/blog/blog.css - Style sheet for Unit 3's Book Reviews */
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* Custom properties */
+:root {
+    --gold-color: #efc69b;
+    --red-color: #af1b3f;
+    --dark-color: #473144;
+    --body-font: Helvetica, Arial, sans-serif;
+    --headline-font: Lora, Impact, serif;
+    --container-max-width: 60rem;
+    --element-min-spacing: 1rem;
+    --layout-threshold: 650px;
+}
+
+/* Global styles */
+body {
+    color: var(--dark-color);
+    font-family: var(--body-font);
+    margin: 0 auto;
+    padding: 0 var(--element-min-spacing);
+    max-width: var(--container-max-width);
+}
+h1 {
+    text-align: center;
+}
+h1, h2, h3, h4 {
+    font-family: var(--headline-font);
+}
+h3, h4 {
+    text-align: right;
+}
+nav {
+    border-top: solid var(--gold-color);
+    border-bottom: solid var(--gold-color);
+    padding: var(--element-min-spacing) 0;
+    text-align: right;
+}
+nav, h2 {
+    color: var(--red-color);
+}
+a {
+    color: inherit;
+    margin: 0 var(--element-min-spacing);
+    text-decoration: none;
+}
+img {
+    margin-left: var(--element-min-spacing);
+}
+aside {
+    border: solid var(--gold-color);
+    margin: var(--element-min-spacing) 0;
+    padding: 0 var(--element-min-spacing);
+}
+
+/* Dynamic layout: narrow viewport below; wide viewport defined in blog.js. */
+.container {
+    display: grid;
+}
+.top {
+    grid-row: 1/2;
+}
+.display {
+    grid-row: 3/4;
+}
+.filter {
+    grid-row: 2/3;
+}
+
+/* Layout of reviews */
+.review {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin: var(--element-min-spacing) 0;
+}
+.left-secondary-pane {
+    grid-column: 1/2;
+    border-right: solid var(--gold-color);
+    padding-right: var(--element-min-spacing);
+    justify-content: right;
+}
+.right-primary-pane {
+    grid-column: 2/3;
+    padding-left: var(--element-min-spacing);
+}
+
+/* Accessibility */
+.skiptocontent a {
+    position: absolute; 
+    top: -40px;
+    left: 0;
+    background-color: var(--red-color);
+    color: var(--gold-color);
+}
+.skiptocontent a:focus {
+    top: 0;
+}
