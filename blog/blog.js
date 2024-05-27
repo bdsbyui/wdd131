@@ -1,6 +1,6 @@
 /* wdd131/blog/blog.js - Script for Unit 3's Book Reviews */
 
-// Blog layout
+// Layout script
 const layoutThreshold = getComputedStyle(
   document.documentElement).getPropertyValue("--layout-threshold").trim();
 const mediaStyle = document.createElement("style");
@@ -30,7 +30,7 @@ mediaStyle.sheet.insertRule(
   0
 );
 
-// Main content
+// Data
 const articles = [
   {
     id: 1,
@@ -39,7 +39,8 @@ const articles = [
     description: "If you enjoy stories about seventh sons of seventh sons and magyk this is the book for you.",
     imgSrc: "https://upload.wikimedia.org/wikipedia/en/5/5f/Magkycover2.jpg",
     imgAlt: "Book cover for Septimus Heap 1",
-    ages: "10-14",genre: "Fantasy",
+    ages: "10-14",
+    genre: "Fantasy",
     stars: "****"
   },
   {
@@ -52,33 +53,38 @@ const articles = [
     ages: "12-16",
     genre: "Fantasy",
     stars: "⭐⭐⭐⭐"
+  },
+  {
+    id: 3,
+    title: "Belgariad Book One: Pawn of Prophecy",
+    date: "Feb 12, 2022",
+    description: "A fierce dispute among the Gods and the theft of a powerful Orb leaves the World divided into five kingdoms. Young Garion, with his \"Aunt Pol\" and an elderly man calling himself Wolf --a father and daughter granted near-immortality by one of the Gods -- set out on a complex mission.",
+    imgSrc: "https://images-na.ssl-images-amazon.com/images/I/41ZxXA+nInL.jpg",
+    imgAlt: "Book cover for Pawn of Prophecy",
+    ages: "12-16",
+    genre: "Fantasy",
+    stars: "⭐⭐⭐⭐⭐"
   }
 ];
 
 
 // Display script
-function templateReview(object) {
-  return `
-    <section id="${object.id}" class="review">
+function loadReviews(reviews) {
+  document.querySelector("#display").innerHTML = reviews.map(review => {return `
+    <section id="${review.id}" class="review">
       <section class="left-secondary-pane">
-        <h3 class="date">${object.date}</h3>
-        <h4 class="ages">${object.ages}</h4>
-        <h4 class="genre">${object.genre}</h4>
-        <h4 class="stars">${object.stars}</h4>
+        <h3 class="date">${review.date}</h3>
+        <h4 class="ages">${review.ages}</h4>
+        <h4 class="genre">${review.genre}</h4>
+        <h4 class="stars">${review.stars}</h4>
       </section>
       <section class="right-primary-pane">
-        <h2 class="title">${object.title}</h2>
-        <img class="cover" src="${object.imgSrc}" alt="${object.imgAlt}">
-        <p class="description">${object.description}</p>
+        <h2 class="title">${review.title}</h2>
+        <img class="cover" src="${review.imgSrc}" alt="${review.imgAlt}">
+        <p class="description">${review.description}</p>
       </section>
     </section>
-  `;
-}
-
-function loadReviews(reviews) {
-  const templatedHtml = reviews.map((review) => templateReview(review));
-  const reducedHtml = templatedHtml.reduce((acc, nxt) => {return acc + nxt;})
-  document.querySelector("#display").innerHTML = reducedHtml;
+  `;}).join("");
 }
 
 loadReviews(articles);
