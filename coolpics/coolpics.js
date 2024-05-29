@@ -1,18 +1,17 @@
 // coolpics.js - Script for Unit 2's Cool Pics
 
 // Menu script
+function setHideClass(element) {
+    if (window.innerWidth < 600) {element.classList.add("hide");}
+    else {element.classList.remove("hide");}
+}
 const navElement = document.querySelector("nav");
 document.querySelector("#menu-button").addEventListener(
     "click",
     () => navElement.classList.toggle("hide")
 );
-window.addEventListener(
-    "resize",
-    () => {
-        if (window.innerWidth < 600) {navElement.classList.add("hide");}
-        else {navElement.classList.remove("hide");}
-    }
-);
+document.addEventListener("DOMContentLoaded", () => setHideClass(navElement));
+window.addEventListener("resize", () => setHideClass(navElement));
 
 // Gallery script
 document.querySelector(".gallery").addEventListener(
