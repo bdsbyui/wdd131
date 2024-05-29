@@ -69,22 +69,25 @@ const articles = [
 
 
 // Display script
-function loadReviews(reviews) {
-  document.querySelector("#display").innerHTML = reviews.map(review => {return `
-    <section id="${review.id}" class="review">
-      <section class="left-secondary-pane">
-        <h3 class="date">${review.date}</h3>
-        <h4 class="ages">${review.ages}</h4>
-        <h4 class="genre">${review.genre}</h4>
-        <h4 class="stars">${review.stars}</h4>
-      </section>
-      <section class="right-primary-pane">
-        <h2 class="title">${review.title}</h2>
-        <img class="cover" src="${review.imgSrc}" alt="${review.imgAlt}">
-        <p class="description">${review.description}</p>
-      </section>
-    </section>
-  `;}).join("");
-}
-
-loadReviews(articles);
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    document.querySelector("#display").innerHTML = articles.map(
+      review => {return `
+        <section id="${review.id}" class="review">
+          <section class="left-secondary-pane">
+            <h3 class="date">${review.date}</h3>
+            <h4 class="ages">${review.ages}</h4>
+            <h4 class="genre">${review.genre}</h4>
+            <h4 class="stars">${review.stars}</h4>
+          </section>
+          <section class="right-primary-pane">
+            <h2 class="title">${review.title}</h2>
+            <img class="cover" src="${review.imgSrc}" alt="${review.imgAlt}">
+            <p class="description">${review.description}</p>
+          </section>
+        </section>
+      `;}
+    ).join("");
+  }
+);
