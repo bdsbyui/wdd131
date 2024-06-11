@@ -1,4 +1,4 @@
-// courses.js
+// Course.js
 
 const aCourse = {
   code: "CSE121b",
@@ -6,20 +6,23 @@ const aCourse = {
   sections: [
     {
       sectionNum: 1,
-      roomNum: 'STC 353',
+      roomNum: "STC 353",
       enrolled: 26,
-      days: 'TTh',
-      instructor: 'Bro T'
+      days: "TTh",
+      instructor: "Bro T",
     },
     {
       sectionNum: 2,
-      roomNum: 'STC 347',
-      enrolled: 28,
-      days: 'TTh',
-      instructor: 'Sis A'
-    }
+      roomNum: "STC 347",
+      enrolled: 25,
+      days: "TTh",
+      instructor: "Sis A",
+    },
   ],
-  changeEnrollment: function (sectionNum, enroll=true) {
+  init() {
+    setCourse(this);
+  },
+  changeEnrollment: function (sectionNum, enroll) {
     const sectionsIndex = this.sections.findIndex(
       (section) => section.sectionNum == sectionNum
     )
@@ -30,7 +33,7 @@ const aCourse = {
     renderSections(this);
   }
 };
-
+  
 function renderSections(course) {
   document.querySelector("#sections").innerHTML = course.sections.map(
     (section) => {
@@ -53,18 +56,4 @@ function setCourse(course) {
   renderSections(course);
 }
 
-document.querySelector("#enrollStudent").addEventListener("click", () => {
-  aCourse.changeEnrollment(
-    document.querySelector("#sectionNumber").value,
-    true
-  )
-})
-
-document.querySelector("#dropStudent").addEventListener("click", () => {
-  aCourse.changeEnrollment(
-    document.querySelector("#sectionNumber").value,
-    false
-  )
-})
-
-setCourse(aCourse);
+export default aCourse;
