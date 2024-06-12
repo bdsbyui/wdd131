@@ -189,9 +189,3 @@ button:hover {
     width: 100%;
   }
 }
-
-@media (max-width: 600px) {
-  .variable-grid {
-    grid-template-columns: 1fr;
-  }
-}
