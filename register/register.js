@@ -28,8 +28,8 @@ function addParticipant(count) {
 
 /**GLOBAL VALUES
  */
-// Count for first participant
 const form = document.querySelector("form");
+// Count for first participant
 let participantCount = 1;
 
 
