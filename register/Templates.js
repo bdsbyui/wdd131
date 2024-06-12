@@ -5,11 +5,11 @@ export const participantSection = function(count) {
     <section class="participant${count}">
       <p>Participant ${count}</p>
       <div class="item">
-        <label for="fname"> First Name<span>*</span></label>
+        <label for="fname">First Name</label>
         <input id="fname${count}" type="text" name="fname" value=""/>
       </div>
       <div class="item activities">
-        <label for="activity">Activity #<span>*</span></label>
+        <label for="activity">Activity #</label>
         <input id="activity${count}" type="text" name="activity"/>
       </div>
       <div class="item">
@@ -17,7 +17,7 @@ export const participantSection = function(count) {
         <input id="fee${count}" type="number" name="fee" required/>
       </div>
       <div class="item">
-        <label for="date">Desired Date <span>*</span></label>
+        <label for="date">Desired Date</label>
         <input id="date${count}" type="date" name="date"/>
       </div>
       <div class="item">
