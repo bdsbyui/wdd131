@@ -1,6 +1,8 @@
+<!-- wdd131/recipes/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
@@ -12,8 +14,65 @@
     <link rel="stylesheet" href="sty/normalize.css">
     <link rel="stylesheet" href="sty/recipes.css">
     <script src="scr/main.js" defer></script>  
-</head>
-<body>
-    
-</body>
+  </head>
+
+  <body>
+    <header>
+      <div class="title">
+        <img alt="recipe book logo" src="img/recipe-book.png">
+        <h1>Recipe Book</h1>
+      </div>
+      
+      <div id="search">
+        <form>
+          <input type="text" placeholder="Find a recipe">
+          <button type="submit">
+            <img alt="search button" src="img/search.svg">
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <main>
+      <section class="recipe">
+        <img alt="" src="img/sweet-potato-waffle-md.jpg">
+
+        <div class="tags">
+          <div class="tags">Waffles</div>
+          <div class="tags">Sweet Potato</div>
+          <div class="tags">Side</div>
+        </div>
+
+        <h2 class="name">Sweet Potato Waffles</h2>
+
+        <span class="rating" role="img" aria-label="Rating: 4 out of 5 stars">
+          <span aria-hidden="true" class="icon-star">⭐</span>
+	        <span aria-hidden="true" class="icon-star">⭐</span>
+	        <span aria-hidden="true" class="icon-star">⭐</span>
+	        <span aria-hidden="true" class="icon-star-empty">⭐</span>
+	        <span aria-hidden="true" class="icon-star-empty">☆</span>
+        </span>
+      </section>
+    </main>
+
+    <footer>
+      <div class="social">
+        <!--
+          Social media icons provided under Creative Commons license from 
+          https://www.iconfinder.com/AlfredoCreates 
+        -->
+        <a href="#"><img alt="instagram icon" src="img/instagram_icon.svg"></a>
+        <a href="#"><img alt="youtube icon" src="img/youtube_icon.svg"></a>
+        <a href="#"><img alt="pinterest icon" src="img/pinterest_icon.svg"></a>
+      </div>
+
+      <a
+        id="flaticon"
+        href="https://www.flaticon.com/free-icons/recipe"
+        title="recipe icons"
+      >
+        Recipe icons created by Freepik - Flaticon
+      </a>
+    </footer>
+  </body>
 </html>
