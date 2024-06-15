@@ -10,7 +10,16 @@
       content="Recipes is the Unit 5 Prove assigment for BYU-I WDD 131"
     >
     <meta name="author" content="Bryant Smith">
-    <title>Recipes</title>
+    <meta property="og:title" content="Recipe Book">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Recipe Site for Web Design">
+    <meta property="og:image" content="img/recipe-book.png">
+    <meta
+      property="og:url"
+      content="https://bdsbyui.github.io/wdd131/recipes/index.html"
+    >
+    <meta name="twitter:card" content="Recipe Site for Web Design">
+    <title>Recipe Book</title>
     <link rel="stylesheet" href="sty/normalize.css">
     <link rel="stylesheet" href="sty/recipes.css">
     <script src="scr/main.js" defer></script>  
@@ -18,45 +27,52 @@
 
   <body>
     <header>
-      <div class="title">
-        <img alt="recipe book logo" src="img/recipe-book.png">
-        <h1>Recipe Book</h1>
+      <div id="heading">
+        <img id="logo" alt="recipe book logo" src="img/recipe-book.png">
+        <h1 id="title">Recipe Book</h1>
       </div>
       
-      <div id="search">
-        <form>
-          <input type="text" placeholder="Find a recipe">
-          <button type="submit">
-            <img alt="search button" src="img/search.svg">
-          </button>
-        </form>
+      <form id="search">
+        <input id="input" type="text" placeholder="Find a recipe">
+        <button type="submit">
+          <img id="button" alt="search button" src="img/search.svg">
+        </button>
+      </form>
       </div>
     </header>
 
     <main>
       <section class="recipe">
-        <img alt="" src="img/sweet-potato-waffle-md.jpg">
-
-        <div class="tags">
-          <div class="tags">Waffles</div>
-          <div class="tags">Sweet Potato</div>
-          <div class="tags">Side</div>
+        <div class="picture">
+          <img alt="sweet potato waffles" src="img/sweet-potato-waffle-md.jpg">
         </div>
 
-        <h2 class="name">Sweet Potato Waffles</h2>
+        <div class="text">
+          <div class="tags">
+            <div class="tag">Waffles</div>
+            <div class="tag">Sweet Potato</div>
+            <div class="tag">Side</div>
+          </div>
 
-        <span class="rating" role="img" aria-label="Rating: 4 out of 5 stars">
-          <span aria-hidden="true" class="icon-star">⭐</span>
-	        <span aria-hidden="true" class="icon-star">⭐</span>
-	        <span aria-hidden="true" class="icon-star">⭐</span>
-	        <span aria-hidden="true" class="icon-star-empty">⭐</span>
-	        <span aria-hidden="true" class="icon-star-empty">☆</span>
-        </span>
+          <h2 class="label">Sweet Potato Waffles</h2>
+
+          <span class="rating" role="img" aria-label="Rating: 4 out of 5 stars">
+            <span aria-hidden="true" class="icon-star">⭐</span>
+	          <span aria-hidden="true" class="icon-star">⭐</span>
+	          <span aria-hidden="true" class="icon-star">⭐</span>
+	          <span aria-hidden="true" class="icon-star-empty">⭐</span>
+  	        <span aria-hidden="true" class="icon-star-empty">☆</span>
+          </span>
+
+          <p class="description">
+            Savory waffles made with Sweet potato with a hint of Ginger
+          </p>
+        </div>
       </section>
     </main>
 
     <footer>
-      <div class="social">
+      <div id="social">
         <!--
           Social media icons provided under Creative Commons license from 
           https://www.iconfinder.com/AlfredoCreates 

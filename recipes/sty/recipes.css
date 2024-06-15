@@ -1,35 +1,139 @@
 /* wdd131/recipes/sty/recipes.css - Style sheet for Unit 5's Recipe Book */
 
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap');
 
-/* Global Variables */
+/* Global*/
 :root {
-  --title-font: small-caps 700 4rem 'Amatic SC', sans-serif;
-  --label-font: small-caps 400 3rem 'Amatic SC', sans-serif;
-  --tags-font: 1.2rem Arial, Helvetica, sans-serif;
-  --description-font: 1rem Arial, Helvetica, sans-serif;
-  --flaticon-font: 0.6rem Arial, Helvetica, sans-serif;
+  /* Layout */
+  --whitespace: 1rem;
+  --max-width: 960px;
+  /* Fonts */
+  --title: small-caps 4rem 'Patrick Hand Sc', cursive;
+  --label: small-caps 3rem 'Patrick Hand Sc', cursive;
+  --tags: 1.5rem Arial, Helvetica, sans-serif;
+  --text: 1rem Arial, Helvetica, sans-serif;
+  --flaticon: 0.6rem Arial, Helvetica, sans-serif;
+  /* Color */
+  --accent: #1b98e0; /* --secondary: #59c3c3;  */
+  --dark: #333;
+  --light: #ebebeb;
+}
+body {
+  padding: var(--whitespace);
+  font: var(--text);
+  color: var(--dark);
+}
+img {
+  max-width: 100%;
 }
 
-.title {
-  font: var(--title-font);
+/* Header */
+header {
+  margin: var(--whitespace) 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#heading, #search {
+  flex-basis: 100%;
+  display: flex;
+}
+#heading {
+  justify-content: center;
+  align-items: baseline;
+}
+#logo {
+  height: 4rem;
+}
+#title {
+  margin: 0;
+  font: var(--title);
+}
+#search {
+  width: 80%;
+  max-width: 300px;
+  align-content: center;
+}
+#input {
+  flex-grow: 1;
+  height: 19px;
+}
+#button {
+  border-radius: 8px;
+  height: 1rem;
 }
 
+/* Main */
+main {
+  border-top: solid var(--light);
+}
+.recipe {
+  max-width: var(--max-width);
+  margin: var(--whitespace) auto;
+  border: solid var(--dark);
+  padding: var(--whitespace);
+  display: flex;
+  border-radius: 4px;
+  flex-direction: column;
+}
+.tags {
+  margin: var(--whitespace) 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--whitespace);
+}
+.tag {
+  border: thin solid var(--dark);
+  padding: 2px;
+  font: var(--tags);
+  text-transform: lowercase;
+}
 .label {
-  font: var(--label-font);
+  margin: 0;
+  font: var(--label);
+  color: var(--accent);
+}
+.description {
+  display: none;
 }
 
-.flaticon {
-  font: var(--flaticon-font);
+/* Footer */
+footer {
+  padding: var(--whitespace);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--whitespace);
+}
+#social, #flaticon {
+  flex-basis: 100%;
+}
+#social {
+  display: flex;
+  justify-content: center;
+  gap: var(--whitespace);
+}
+#social img {
+  height: 4rem;
+}
+#flaticon {
+  font: var(--flaticon);
+  text-align: center;
 }
 
-
-/* 
-The font used for the headlines is called Amatic SC and can be found on Google fonts. However if you look closely at the font you should notice that it breaks a couple of our accessibility rules for fonts. Choose another font that you think has a similar feel, but is better for accessibility.
-
-You can use Arial, Helvetica,sans-serif for the rest of the fonts.
-
-It would be good to add a rule to make our images responsive. We never want an image to be bigger than the space it has available. Something like the following is common:
-
-
-*/
+/* Media Queries */
+@media (min-width: 600px) {
+  .recipe {
+    flex-direction: row;
+    gap: var(--whitespace);
+  }
+  .picture {
+    flex-basis: 50%;
+    margin: auto;
+  }
+  .text {
+    flex-basis: 50%;
+  }
+  .description {
+    display: block;
+  }
+}
