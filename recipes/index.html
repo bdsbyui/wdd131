@@ -22,7 +22,7 @@
     <title>Recipe Book</title>
     <link rel="stylesheet" href="sty/normalize.css">
     <link rel="stylesheet" href="sty/recipes.css">
-    <script src="scr/main.js" defer></script>  
+    <script src="scr/main.js" type="module"></script>
   </head>
 
   <body>
@@ -41,35 +41,8 @@
       </div>
     </header>
 
-    <main>
-      <section class="recipe">
-        <div class="picture">
-          <img alt="sweet potato waffles" src="img/sweet-potato-waffle-md.jpg">
-        </div>
-
-        <div class="text">
-          <div class="tags">
-            <div class="tag">Waffles</div>
-            <div class="tag">Sweet Potato</div>
-            <div class="tag">Side</div>
-          </div>
-
-          <h2 class="label">Sweet Potato Waffles</h2>
-
-          <span class="rating" role="img" aria-label="Rating: 4 out of 5 stars">
-            <span aria-hidden="true" class="icon-star">⭐</span>
-	          <span aria-hidden="true" class="icon-star">⭐</span>
-	          <span aria-hidden="true" class="icon-star">⭐</span>
-	          <span aria-hidden="true" class="icon-star-empty">⭐</span>
-  	        <span aria-hidden="true" class="icon-star-empty">☆</span>
-          </span>
-
-          <p class="description">
-            Savory waffles made with Sweet potato with a hint of Ginger
-          </p>
-        </div>
-      </section>
-    </main>
+    <!-- Recipes dynamically inserted here -->
+    <main></main>
 
     <footer>
       <div id="social">

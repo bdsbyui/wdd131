@@ -84,6 +84,7 @@ main {
 }
 .tag {
   border: thin solid var(--dark);
+  border-radius: 4px;
   padding: 2px;
   font: var(--tags);
   text-transform: lowercase;
