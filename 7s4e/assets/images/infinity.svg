@@ -5,8 +5,29 @@
   viewBox="-200 -150 400 300"
   xmlns="http://www.w3.org/2000/svg"
 >
-  <circle cx="0" cy="0" r="80" fill="#8754e8"/>
-  <rect x="-20" y="-80" width="40" height="20" fill="000" />
-  <polygon points="-30,100 0,40 30,100" fill="111" />
-  <line x1="-40" y1="-10" x2="40" y2="-10" stroke="222" stroke-width="10px" />
+  <style>
+    .infinity-symbol {
+      fill: none;
+      stroke: black;
+      stroke-width: 2;
+    }
+  </style>
+  <path
+    class="infinity-symbol"
+    d="
+      M -100,0 
+      C -130,-30, -130,30, -100,0 
+      S -70,30, -100,0 
+    "
+  />
 </svg>
+
+<!--
+      M 50,50 
+      C 20,20, 20,80, 50,50 
+      S 80,80, 50,50 
+
+      M 150,50 
+      C 180,20, 180,80, 150,50 
+      S 120,80, 150,50
+ -->
