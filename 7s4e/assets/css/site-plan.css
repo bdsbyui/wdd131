@@ -173,3 +173,11 @@ pre {
   margin: 0;
   padding: 0;
 }
+
+/* SVG */
+.svg {
+  display: block;
+  margin: 0 auto;
+  /* border: thin solid; */
+  /* padding: 20px; */
+}
