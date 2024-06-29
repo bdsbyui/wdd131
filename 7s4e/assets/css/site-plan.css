@@ -175,9 +175,10 @@ pre {
 }
 
 /* SVG */
+.logo {
+  width: 200px;
+}
 .svg {
   display: block;
   margin: 0 auto;
-  /* border: thin solid; */
-  /* padding: 20px; */
 }
