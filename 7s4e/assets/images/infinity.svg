@@ -75,7 +75,17 @@
   </g>
   <animateMotion
     href="#t"
-    begin="48s"
+    begin="0s"
+    dur="54s"
+    keyPoints="0.1;1"
+    keyTimes="0;1"
+    fill="freeze"
+  >
+    <mpath href="#child-path"/>
+  </animateMotion>
+  <animateMotion
+    href="#t"
+    begin="54s"
     dur="60s"
     repeatCount="indefinite"
   >
@@ -95,7 +105,17 @@
   </g>
   <animateMotion
     href="#a"
-    begin="36s"
+    begin="0s"
+    dur="42s"
+    keyPoints="0.3;1"
+    keyTimes="0;1"
+    fill="freeze"
+  >
+    <mpath href="#child-path"/>
+  </animateMotion>
+  <animateMotion
+    href="#a"
+    begin="42s"
     dur="60s"
     repeatCount="indefinite"
   >
@@ -115,7 +135,17 @@
   </g>
   <animateMotion
     href="#h"
-    begin="24s"
+    begin="0s"
+    dur="30s"
+    keyPoints="0.5;1"
+    keyTimes="0;1"
+    fill="freeze"
+  >
+    <mpath href="#child-path"/>
+  </animateMotion>
+  <animateMotion
+    href="#h"
+    begin="30s"
     dur="60s"
     repeatCount="indefinite"
   >
@@ -135,7 +165,17 @@
   </g>
   <animateMotion
     href="#c"
-    begin="12s"
+    begin="0s"
+    dur="18s"
+    keyPoints="0.7;1"
+    keyTimes="0;1"
+    fill="freeze"
+  >
+    <mpath href="#child-path"/>
+  </animateMotion>
+  <animateMotion
+    href="#c"
+    begin="18s"
     dur="60s"
     repeatCount="indefinite"
   >
@@ -154,9 +194,18 @@
     <circle class="circle" cx="0" cy="0" r="10"/>
   </g>
   <animateMotion
-    id="motionAnimation"
     href="#j"
     begin="0s"
+    dur="6s"
+    keyPoints="0.9;1"
+    keyTimes="0;1"
+    fill="freeze"
+  >
+    <mpath href="#child-path"/>
+  </animateMotion>
+  <animateMotion
+    href="#j"
+    begin="6s"
     dur="60s"
     repeatCount="indefinite"
   >
