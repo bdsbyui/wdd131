@@ -132,13 +132,29 @@
 			<hr>
 			<h2>Content</h2>
 			<h3>Home page</h3>
+			<p>
+				The home page will consist of a header and a hero section. The header 
+				is a icon-based navigation menu exposed by a hamburger button. The hero 
+				section consists of a graphic introducing the family with the infinity 
+				symbol as a motif to reflect the <em>forever</em> theme.
+			</p>
+			<p>
+				The graphic for the hero section is under development and will employ 
+				Canvas, SVG, or some combination of both. Drafts of each are displayed 
+				below. For the SVG, I have not yet discoverd how to get the clip path to 
+				behave in Chrome and Edge as it does in Firefox. For some reason, with the 
+				former browsers, the image is clipped at the x and y limits of the path, 
+				but it does not trace the path itself. And in Canvas, I cannot seem to get 
+				clipping path to work if the Bézier curve ends where it starts.
+			</p>
+			<h4>Draft SVG Hero</h4>
 			<object
 			  class="svg"
 				data="../assets/images/infinity.svg"
 				type="image/svg+xml"
 				aria-label="infinity symbol"
-			>
-			</object>
+			></object>
+			<h4>Draft Canvas Hero</h4>
 			<canvas id="canvas" width="1200" height="500">
 				<object
 					class="svg"
@@ -148,11 +164,16 @@
 				></object>
 			</canvas>
 
+			<h3>Games Page</h3>
+			<p>
+				The games page has the play space at it center. Above the play space is the
+				name of the active game. Icons to toggle between games is at the bottom of a 
+				mobile screen, or along the side on a desktop screen.
+			</p>
 
-			<p>The home page will </p>
-
-			<h3>[Page 2]</h3>
+			<h3>Recipes Page</h3>
 			<p>[content, images, data for the subpage]</p>
+
 			<h2>Wireframes</h2>
 			<p>
 				Create two wireframes for your site. One for each page and list them
@@ -166,7 +187,7 @@
 			</p>
 			<img src="#" alt="home page wireframe" />
 
-			<h3>[Page 2]</h3>
+			<h3>Games</h3>
 			<p>
 				[Any additional details about page 2 that the wireframe does not make
 				clear]
