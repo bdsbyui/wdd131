@@ -167,18 +167,20 @@ nav a:hover {
   border-right: 1px solid;
 }
 
-pre {
-  display: inline;
-  white-space: normal;
-  margin: 0;
-  padding: 0;
-}
-
-/* SVG */
+/* Graphics */
 .logo {
   width: 200px;
 }
-.svg {
+.hero, .wireframe, .mobile {
   display: block;
   margin: 0 auto;
+}
+.hero, .desktop {
+  width: 100%;
+}
+.wireframe {
+  max-width: 80%;
+}
+.mobile {
+  max-width: 40%;
 }

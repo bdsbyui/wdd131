@@ -66,7 +66,7 @@
 					satisfied, I will also implement the "Recipes" page. This course's 
 					recipes project in Unit 5 will clearly benefit this effort. However, 
 					for this personal project, I will substantively improve upon the Unit 
-					5 assignment by customizing the design and creating click-able tags.
+					5 assignment by customizing the design.
 				</li>
 			</ul>
 
@@ -125,8 +125,8 @@
 			<h3>Navigation</h3>
 			<nav>
 				<a href="#">Home</a>
-				<a href="#">Page2</a>
-				<a href="#">Page3</a>
+				<a href="#">Games</a>
+				<a href="#">Recipes</a>
 			</nav>
 
 			<hr>
@@ -136,26 +136,34 @@
 				The home page will consist of a header and a hero section. The header 
 				is a icon-based navigation menu exposed by a hamburger button. The hero 
 				section consists of a graphic introducing the family with the infinity 
-				symbol as a motif to reflect the <em>forever</em> theme.
+				symbol as a motif to reflect the 
+				<em>forever</em> 
+				theme. The graphic for the hero section is under development and will 
+				employ Canvas, SVG, or some combination of both. Very rough drafts of 
+				each are displayed below.
 			</p>
-			<p>
-				The graphic for the hero section is under development and will employ 
-				Canvas, SVG, or some combination of both. Drafts of each are displayed 
-				below. For the SVG, I have not yet discoverd how to get the clip path to 
-				behave in Chrome and Edge as it does in Firefox. For some reason, with the 
-				former browsers, the image is clipped at the x and y limits of the path, 
-				but it does not trace the path itself. And in Canvas, I cannot seem to get 
-				clipping path to work if the Bézier curve ends where it starts.
-			</p>
+
 			<h4>Draft SVG Hero</h4>
 			<object
-			  class="svg"
+			  class="hero"
 				data="../assets/images/infinity.svg"
 				type="image/svg+xml"
 				aria-label="infinity symbol"
 			></object>
+			<p>
+				For the SVG, the challenge is that I have not yet discovered how to get 
+				the clip path to behave in Chrome and Edge as it does in Firefox. It 
+				appears that using a browser other than Firefox results in the image 
+				being clipped at the 
+				<em>x</em> 
+				and 
+				<em>y</em> 
+				limits of the path, but not along the path of the Bézier curve itself.
+		 </p>
+
+
 			<h4>Draft Canvas Hero</h4>
-			<canvas id="canvas" width="1200" height="500">
+			<canvas id="canvas" class="hero" width="1200" height="500">
 				<object
 					class="svg"
 					data="../assets/images/infinity.svg"
@@ -163,36 +171,125 @@
 					aria-label="infinity symbol"
 				></object>
 			</canvas>
+			<svg style="display: none;">
+				<path id="infinityLoopPath" d="M 600,250 c -600,600, -600,-600, 0,0 s 600,-600, 0,0" />
+			</svg>
+			<p>
+				As for Canvas, I cannot seem to get clipping path to work if the Bézier 
+				curve ends where it starts. If the start and endpoints are the same, it 
+				is as if the 
+				<em>clip()</em> 
+				method has no effect. The bigger challenge, however, is that the 
+				animation is proving to be considerably more complex than in the SVG. 
+				Un-commented out, the 
+				<em>animateJacob()</em> 
+				function as currently conceived causes the page to freeze.
+			</p>
+
+
+
 
 			<h3>Games Page</h3>
 			<p>
-				The games page has the play space at it center. Above the play space is the
-				name of the active game. Icons to toggle between games is at the bottom of a 
-				mobile screen, or along the side on a desktop screen.
+				The games page has the play space at it center. Above the play space is 
+				the name of the active game. Icons or text to toggle between games is 
+				at the bottom of a mobile screen, or along the side on a desktop 
+				screen. Games include an improved version of the mostly-working 
+				<a href="https://bdsbyui.github.io/wdd130/7s4e/games.html">
+					Wordle
+				</a> 
+				and a to-be-developed implementation of Minesweeper, for which there 
+				are many 
+				<a href=
+					"https://www.geeksforgeeks.org/create-a-minesweeper-game-using-html-css-javascript/"
+				>examples online
+				</a> 
+				which can inform my own version.
 			</p>
 
 			<h3>Recipes Page</h3>
-			<p>[content, images, data for the subpage]</p>
+			<p>
+				The recipes page is a new, to-be-developed implementation of Unit 5's 
+				<a href=
+					"https://bdsbyui.github.io/wdd131/recipes/index.html"
+				>Recipe Book
+				</a> 
+				with the addition of my own family's recipes.
+			</p>
 
 			<h2>Wireframes</h2>
 			<p>
-				Create two wireframes for your site. One for each page and list them
-				here
+				Create wireframes for your site. One for each page and list them here:
 			</p>
 
 			<h3>Home</h3>
-			<p>
-				[Any additional details about home that the wireframe does not make
-				clear]
-			</p>
-			<img src="#" alt="home page wireframe" />
+			<h4>Mobile</h4>
+			<div class="wireframe">
+				<a href="https://wireframe.cc/OX8u75">
+					<img
+						class="mobile"
+						src="../assets/images/homeMobile.png"
+						alt="home page mobile wireframe"
+					/>
+				</a>
+			</div>
 
+			<h4>Desktop</h4>
+			<div class="wireframe">
+				<a href="https://wireframe.cc/wM20Ao">
+					<img
+						class="desktop"
+						src="../assets/images/homeDesktop.png"
+						alt="home page desktop wireframe"
+					/>
+				</a>
+			</div>
+			
 			<h3>Games</h3>
-			<p>
-				[Any additional details about page 2 that the wireframe does not make
-				clear]
-			</p>
-			<img src="#" alt="page 2 wireframe" />
+			<h4>Mobile</h4>
+			<div class="wireframe">
+				<a href="https://wireframe.cc/aOUdKK">
+					<img
+						class="mobile"
+						src="../assets/images/gamesMobile.png"
+						alt="games page mobile wireframe"
+					/>
+				</a>
+			</div>
+
+			<h4>Desktop</h4>
+			<div class="wireframe">
+				<a href="https://wireframe.cc/X2Vi3V">
+					<img
+						class="desktop"
+						src="../assets/images/gamesDesktop.png"
+						alt="games page desktop wireframe"
+					/>
+				</a>
+			</div>
+
+			<h3>Recipes</h3>
+			<h4>Mobile</h4>
+			<div class="wireframe">
+				<a href="https://wireframe.cc/EacUyz">
+					<img
+						class="mobile"
+						src="../assets/images/recipesMobile.png"
+						alt="recipes page mobile wireframe"
+					/>
+				</a>
+			</div>
+
+			<h4>Desktop</h4>
+			<div class="wireframe">
+				<a href="https://wireframe.cc/qxpdDp">
+					<img
+						class="desktop"
+						src="../assets/images/recipesDesktop.png"
+						alt="recipes page desktop wireframe"
+					/>
+				</a>
+			</div>
 		</main>
 	</body>
 </html>
