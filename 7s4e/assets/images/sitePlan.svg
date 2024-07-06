@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- site plan logo  -->
+
+<svg 
+  width="180"
+  height="180"
+  viewBox="0 0 180 180"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <style>@import url("../css/styles.css");</style>
+  </defs>
+  <rect class="logos" x="5" y="5" width="170" height="170"/>
+  <rect class="logos accent" x="25" y="40" width="130" height="40"/>
+  <rect class="logos accent" x="25" y="95" width="45" height="45"/>
+  <path
+    class ="logos"
+    d="
+      M 5,20  H 175    
+      M 160,5 V 20
+
+      M 25,40  L 155,80 
+      M 25,80  L 155,40
+      
+      M 25,95  L 70,140 
+      M 25,140 L 70,95
+    "
+  />
+  <path
+    class ="logos accent"
+    d="
+      M 85,95  H 155 
+      M 85,110 H 155 
+      M 85,125 H 155 
+      M 85,140 H 155
+      M 25,155 H 155
+    "
+  />
+</svg>
+
+

@@ -5,4 +5,40 @@
   /* Colors */
   --dark-color: #396e94;
   --light-color: #e3e3ff;
+  --dark-accent: #488737;
+  --light-accent: #dcb7a4;
+}
+
+.logos {
+  fill: transparent;
+  stroke: var(--dark-accent, #333);
+  stroke-width: 7;
+}
+
+.logos.accent {
+  fill: var(--light-accent);
+  stroke-linecap: round;
+}
+
+.svgLink {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.svgLink:hover .tooltip {
+  opacity: 1;
 }

@@ -1,21 +1,21 @@
 :root {
-  --primary-dark: #393787;
-  --primary-light: #e3e3ff;
-  --accent-dark: #488737;
-  --accent-light: #dcb7a4;
+  /* --dark-color: #393787; */
+  /* --light-color: #e3e3ff; */
+  /* --dark-accent: #488737; */
+  /* --light-accent: #dcb7a4; */
 
   --heading-font: Arial, Helvetica, sans-serif;
   --paragraph-font: 'Times New Roman', Times, serif;
 
-  --headline-color-on-white: var(--primary-dark);
-  --headline-color-on-color: var(--primary-light);
-  --paragraph-color-on-white: var(--primary-dark);
+  --headline-color-on-white: var(--dark-color);
+  --headline-color-on-color: var(--light-color);
+  --paragraph-color-on-white: var(--dark-color);
   --paragraph-color-on-color: white;
-  --paragraph-background-color: var(--primary-dark);
-  --nav-link-color: var(--primary-light);
-  --nav-background-color: var(--accent-dark);
+  --paragraph-background-color: var(--dark-color);
+  --nav-link-color: var(--light-color);
+  --nav-background-color: var(--dark-accent);
   --nav-hover-link-color: white;
-  --nav-hover-background-color: var(--primary-dark);
+  --nav-hover-background-color: var(--dark-color);
 }
 
 body {
@@ -43,7 +43,7 @@ h2 {
 hr {
   height: 3px;
   margin: 35px 0;
-  background: var(--accent-light);
+  background: var(--light-accent);
 }
 header {
   padding: 1em;
@@ -76,17 +76,17 @@ p, li {
 }
 
 .primary {
-  background-color: var(--primary-dark);
-  color: var(--primary-light);
+  background-color: var(--dark-color);
+  color: var(--light-color);
 }
 .secondary {
-  background-color: var(--primary-light);
+  background-color: var(--light-color);
 }
 .accent1 {
-  background-color: var(--accent-dark);
+  background-color: var(--dark-accent);
 }
 .accent2 {
-  background-color: var(--accent-light);
+  background-color: var(--light-accent);
 }
 
 p.colored {
