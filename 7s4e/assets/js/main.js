@@ -17,3 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+window.onload = window.onresize = () => {
+  const source = document.querySelector('.width-source');
+  const target = document.querySelector('.width-target');
+  target.style.width = `${source.offsetWidth}px`;
+};

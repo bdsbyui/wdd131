@@ -23,24 +23,36 @@
   <title>Seven Smiths Forever</title>
   <link rel="stylesheet" href="assets/css/normalize.css" type="text/css"/>
   <link rel="stylesheet" href="assets/css/styles.css" type="text/css"/>
+  <link rel="stylesheet" href="assets/css/home.css" type="text/css"/>
   <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml"/>  
   <script src="assets/js/main.js" type="module"></script>
 </head>
 
 <body>
   <main>
-    <object data="assets/images/logo.svg" type="image/svg+xml"></object>
-  </main>
-  <footer>
-    <a class="svgLink" href="pages/site-plan.html" title="site plan">
+    <div class="hero width-source">
       <object 
-        class="svgObject" 
-        data="assets/images/sitePlan.svg" 
+        class="content" 
+        data="assets/images/logo.svg" 
         type="image/svg+xml"
-        aria-label="site plan" 
       ></object>
-      <span class="tooltip">site plan</span>
-    </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="width-target">
+      <div class="link-container site-plan">
+        <a class="iconLink" href="pages/site-plan.html" title="site plan">
+          <object 
+            class="svgObject" 
+            data="assets/images/sitePlan.svg" 
+            type="image/svg+xml"
+            aria-label="site plan" 
+          ></object>
+          <span class="tooltip">site plan</span>
+        </a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>

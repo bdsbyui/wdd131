@@ -9,22 +9,25 @@
   --light-accent: #dcb7a4;
 }
 
-.logos {
-  fill: transparent;
-  stroke: var(--dark-accent, #333);
-  stroke-width: 7;
+/* Dynamic Structure */
+.content {
+  max-width: 100%;
 }
 
-.logos.accent {
-  fill: var(--light-accent);
-  stroke-linecap: round;
+/* Icon Links */
+.link-container {
+  display: inline;
+  width: 50px;
+  float: right;
 }
-
-.svgLink {
+.svgObject {
+  width: 100%;
+  height: auto;
+}
+.iconLink {
   position: relative;
   display: inline-block;
 }
-
 .tooltip {
   position: absolute;
   top: 50%;
@@ -38,7 +41,24 @@
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
-
-.svgLink:hover .tooltip {
+.iconLink:hover .tooltip {
   opacity: 1;
 }
+
+/* SVG Styles */
+.logos {
+  fill: transparent;
+  stroke: var(--dark-accent, #333);
+  stroke-width: 7;
+}
+.logos.accent {
+  fill: var(--light-accent);
+  stroke-linecap: round;
+}
+
+/* base, layout, components, themes, page, utilities */
+/* .block__element--modifier */
+/* structure vs skin */
+/* .width-target {
+  margin: 0 auto;
+} */
