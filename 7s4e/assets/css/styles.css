@@ -18,10 +18,9 @@
 .link-container {
   display: inline;
   width: 50px;
-  float: right;
 }
 .svgObject {
-  width: 100%;
+  width: 50px;
   height: auto;
 }
 .iconLink {

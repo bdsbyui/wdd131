@@ -36,6 +36,9 @@ main {
   max-width: 100vw;
   max-height: 100vh;
 }
+.menu-icon, .site-plan {
+  float: right;
+}
 
 /* base, layout, components, themes, page, utilities */
 /* .block__element--modifier */

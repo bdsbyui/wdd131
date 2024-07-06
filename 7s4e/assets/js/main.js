@@ -1,25 +1,38 @@
 /* wdd131/7s4e/assets/js/main.js */
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded");
+
   const svgObjects = document.querySelectorAll(".svgObject");
-  svgObjects.forEach((objectElement, index) => {
-    objectElement.addEventListener("mouseenter", () => {
-      objectElement.style.cursor = "pointer";
-    });
+  console.log(`svgObjects: ${svgObjects.length}`);
+
+  svgObjects.forEach((objectElement) => {
     objectElement.addEventListener("load", () => {
+      console.log(`${objectElement.getAttribute("aria-label")} loaded`);
+
       const svg = objectElement.contentDocument.querySelector("svg");
+      console.log(`${objectElement.getAttribute("aria-label")} svg: ${svg}`);
+
       if (svg) {
-        svg.style.cursor = "pointer";
+        console.log(`svg: true`);
+        svg.addEventListener("mouseenter", () => {
+          console.log(`${objectElement.getAttribute("aria-label")} listening`);
+          objectElement.style.cursor = "pointer";
+        });
         svg.addEventListener("click", () => {
-          window.location.href = svgObjects[index].parentNode.href;
+          console.log(`${objectElement.getAttribute("aria-label")} clicked`);
+          window.location.href = objectElement.closest("a").href;
         });
       }
     });
   });
 });
 
+
 window.onload = window.onresize = () => {
   const source = document.querySelector('.width-source');
-  const target = document.querySelector('.width-target');
-  target.style.width = `${source.offsetWidth}px`;
+  const targets = document.querySelectorAll('.width-target');
+  targets.forEach((target) => {
+    target.style.width = `${source.offsetWidth}px`;
+  });  
 };
