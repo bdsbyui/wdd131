@@ -11,7 +11,14 @@
 
 /* Dynamic Structure */
 .content {
-  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 /* Icon Links */

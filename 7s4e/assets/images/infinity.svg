@@ -6,6 +6,7 @@
   xmlns="http://www.w3.org/2000/svg"
 >
   <defs>
+    <!-- <style>@import url("../css/styles.css");</style> -->
     <clipPath id="child-crop">
       <circle cx="0" cy="0" r="10"/>
     </clipPath>
