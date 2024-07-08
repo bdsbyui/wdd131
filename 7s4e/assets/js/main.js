@@ -20,45 +20,65 @@ const templateSVG = function(
 
 // Hero SVG
 document.addEventListener("DOMContentLoaded", () => {
-  const colorStyles = getComputedStyle(document.documentElement);
-  const lightColor = colorStyles.getPropertyValue("--light-color");
-  const darkAccent = colorStyles.getPropertyValue("--dark-accent");
+  const styles = getComputedStyle(document.documentElement);
+  const mainColor = styles.getPropertyValue("--dark-color");
+  const accentColor = styles.getPropertyValue("--dark-accent");
+
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("width", 1000);
   svg.setAttribute("height", 1000);
   svg.setAttribute("viewBox", "-500 -500 1000 1000")
+
   const defs = document.createElementNS(svgNS, "defs");
+
+  const frameClip = document.createElementNS(svgNS, "clipPath");
+  frameClip.setAttribute("id", "frame");
+
+  const frameShape = document.createElementNS(svgNS, "circle");
+  frameShape.setAttribute("cx", "0");
+  frameShape.setAttribute("cy", "0");
+  frameShape.setAttribute("r", "168");
+
+  // const loopClip = document.createElementNS(svgNS, "clipPath");
+  // loopClip.setAttribute("id", "loop");
+
   const radialGradient = document.createElementNS(svgNS, "radialGradient");
   radialGradient.setAttribute("id", "gradient");
-  defs.appendChild(radialGradient);
-  const stop1 = document.createElementNS(svgNS, "stop");
-  radialGradient.appendChild(stop1);
-  stop1.setAttribute("offset", "0%");
-  stop1.setAttribute("stop-color", lightColor);
-  const stop2 = document.createElementNS(svgNS, "stop");
-  radialGradient.appendChild(stop2);
-  stop2.setAttribute("offset", "100%");
-  stop2.setAttribute("stop-color", darkAccent);
-  const background = document.createElementNS(svgNS, "rect");
-  svg.appendChild(background);
-  background.setAttribute("x", -168);
-  background.setAttribute("y", -168);
-  background.setAttribute("width", 450);
-  background.setAttribute("height", 336);
-  background.setAttribute("cx", 0.5);
-  background.setAttribute("cy", 0.5);
-  background.setAttribute("fx", 0.373);
-  background.setAttribute("fy", 0.5);
-  background.setAttribute("fill", "black");
-  // background.setAttribute("fill", "url(#gradient)");
+  radialGradient.setAttribute("cx", "0.3733");
+  radialGradient.setAttribute("cy", "0.5");
+  radialGradient.setAttribute("r", "0.6267");
 
+  const stop1 = document.createElementNS(svgNS, "stop");
+  stop1.setAttribute("offset", "0.5957");
+  stop1.setAttribute("stop-color", mainColor);
+
+  const stop2 = document.createElementNS(svgNS, "stop");
+  stop2.setAttribute("offset", "1");
+  stop2.setAttribute("stop-color", accentColor);
+
+  const portrait = document.createElementNS(svgNS, "image");
+  portrait.setAttribute("id", "bryant");
+  portrait.setAttribute("x", "-830");
+  portrait.setAttribute("y", "-190");
+  portrait.setAttribute("width", "1150");
+  portrait.setAttribute("href", "assets/images/bryant.jpg");
+  portrait.setAttribute("clip-path", "url(#frame)");
+
+  const loopFiller = document.createElementNS(svgNS, "path");
+  loopFiller.setAttribute("d", "M 0,0 c -600,600, -600,-600, 0,0");
+  loopFiller.setAttribute("fill", "url(#gradient)");
+
+  const wingGroup = document.createElementNS(svgNS, "g");
+  wingGroup.appendChild(loopFiller);
+  wingGroup.appendChild(portrait);
 
   const infinityLoop = document.createElementNS(svgNS, "path");
   infinityLoop.setAttribute("class", "logos");
   infinityLoop.setAttribute(
     "d", "M 0,0 C -600,600, -600,-600, 0,0 S 600,-600, 0,0"
   );
+
   const circle = document.createElementNS(svgNS, 'circle');
   // circle.setAttribute("class", "logos");
   circle.setAttribute('cx', -282);
@@ -67,9 +87,37 @@ document.addEventListener("DOMContentLoaded", () => {
   circle.setAttribute("stroke", "black");
   circle.setAttribute("stroke-width", 7);
   circle.setAttribute("fill", "none");
-  svg.appendChild(infinityLoop);
-  svg.appendChild(circle);
+
+  svg.appendChild(defs);
+  defs.appendChild(frameClip);
+  frameClip.appendChild(frameShape);
+
+  defs.appendChild(radialGradient);
+  radialGradient.appendChild(stop1);
+  radialGradient.appendChild(stop2);
+
+  svg.appendChild(wingGroup);
+  // svg.appendChild(infinityLoop);
+  // svg.appendChild(circle);
   document.querySelector("#hero").appendChild(svg);
+  
+  const rotationDuration = 120000 // two minutes
+  const revolutionDuration = 300000 // five minutes
+  const start = performance.now();
+
+  function animateElements(timestamp) {
+    const elapsed = timestamp - start;
+    const rotationProgress = (elapsed % rotationDuration) / rotationDuration;
+    const portraitRotation = -360 * rotationProgress;
+    const loopRotation = 360 * rotationProgress;
+    portrait.setAttribute(
+      "transform", 
+      `translate(-282, 0) rotate(${portraitRotation} 0 0)`
+    );
+    wingGroup.setAttribute("transform", `rotate(${loopRotation} 0 0)`);
+    requestAnimationFrame(animateElements);
+  }
+  requestAnimationFrame(animateElements);
 });
 
 // Make icons clickable
