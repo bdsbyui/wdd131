@@ -1,7 +1,9 @@
 /* wdd131/7s4e/assets/js/svg.js */
 
-import family from "../../data/family.mjs";
+// import getFamilyObject from "./utils.mjs";
+import getFamilyObject from "./utils.mjs";
 
+const familyObject = getFamilyObject();
 const styles = getComputedStyle(document.documentElement);
 const mainColor = styles.getPropertyValue("--dark-color");
 const accentColor = styles.getPropertyValue("--dark-accent");
@@ -15,17 +17,17 @@ const newElement = (type) => {
   return document.createElementNS("http://www.w3.org/2000/svg", type)
 };
 
-export function loadHero() {
-  const length = heroDimensions.viewboxSize;
-  const minimum = -length / 2;
+const svgElement = () => {
+  const size = heroDimensions.viewboxSize;
+  const minXY = -size / 2;
   const radius = heroDimensions.portraitRadius;
   const offset = heroDimensions.portraitOffset;
   const wingspan = radius + offset;
 
   const svg = newElement("svg");
-  svg.setAttribute("width", length);
-  svg.setAttribute("height", length);
-  svg.setAttribute("viewBox", `${minimum} ${minimum} ${length} ${length}`);
+  svg.setAttribute("width", size);
+  svg.setAttribute("height", size);
+  svg.setAttribute("viewBox", `${minXY} ${minXY} ${size} ${size}`);
 
   const defs = newElement("defs");
 
@@ -35,21 +37,38 @@ export function loadHero() {
   const frameShape = newElement("circle");
   frameShape.setAttribute("cx", "0");
   frameShape.setAttribute("cy", "0");
-  frameShape.setAttribute("r", `${radius}`);
+  frameShape.setAttribute("r", radius);
 
   const radialGradient = newElement("radialGradient");
   radialGradient.setAttribute("id", "gradient");
-  radialGradient.setAttribute("cx", `${radius / wingspan}`);
+  radialGradient.setAttribute("cx", radius / wingspan);
   radialGradient.setAttribute("cy", "0.5");
-  radialGradient.setAttribute("r", `${offset / wingspan}`);
+  radialGradient.setAttribute("r", offset / wingspan);
 
   const stop1 = newElement("stop");
-  stop1.setAttribute("offset", "0.5957");
+  stop1.setAttribute("offset", radius / offset);
   stop1.setAttribute("stop-color", mainColor);
 
   const stop2 = newElement("stop");
   stop2.setAttribute("offset", "1");
   stop2.setAttribute("stop-color", accentColor);
+
+  frameClip.appendChild(frameShape);
+  radialGradient.appendChild(stop1);
+  radialGradient.appendChild(stop2);
+
+  defs.appendChild(frameClip);
+  defs.appendChild(radialGradient);
+
+  svg.appendChild(defs);
+
+  return svg;
+}
+
+export function loadHero() {
+  const svg = svgElement();
+
+  console.log(JSON.stringify(familyObject, null, 2));
 
   const portrait = newElement("image");
   portrait.setAttribute("id", "bryant");
@@ -81,14 +100,6 @@ export function loadHero() {
   circle.setAttribute("stroke", "black");
   circle.setAttribute("stroke-width", 7);
   circle.setAttribute("fill", "none");
-
-  svg.appendChild(defs);
-  defs.appendChild(frameClip);
-  frameClip.appendChild(frameShape);
-
-  defs.appendChild(radialGradient);
-  radialGradient.appendChild(stop1);
-  radialGradient.appendChild(stop2);
 
   svg.appendChild(wingGroup);
   // svg.appendChild(infinityLoop);

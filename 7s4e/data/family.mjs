@@ -11,31 +11,31 @@ const family = [
     "generation": 1,
     "name": "Jacob",
     "spouse": "",
-    "parent": ""
+    "parent": "Bryant"
   },
   {
     "generation": 1,
     "name": "Celeste",
     "spouse": "Brik",
-    "parent": ""
+    "parent": "Bryant"
   },
   {
     "generation": 1,
     "name": "Hannah",
     "spouse": "",
-    "parent": ""
+    "parent": "Bryant"
   },
   {
     "generation": 1,
     "name": "Aaron",
     "spouse": "",
-    "parent": ""
+    "parent": "Bryant"
   },
   {
     "generation": 1,
     "name": "Timothy",
     "spouse": "",
-    "parent": ""
+    "parent": "Bryant"
   },
   {
     "generation": 2,
