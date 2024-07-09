@@ -17,7 +17,7 @@ const newElement = (type) => {
   return document.createElementNS("http://www.w3.org/2000/svg", type)
 };
 
-const svgElement = () => {
+const heroSVG = () => {
   const size = heroDimensions.viewboxSize;
   const minXY = -size / 2;
   const radius = heroDimensions.portraitRadius;
@@ -65,10 +65,27 @@ const svgElement = () => {
   return svg;
 }
 
+function getPortraits(family) {
+  let generation = 0;
+  const parents = family.parents;
+  switch(parents.length) {
+    
+  }
+  const children = family.children;
+  return {
+    "generation": 0,
+    "alignment": "left",
+    "portrait": "portrait"
+  };
+}
+
 export function loadHero() {
-  const svg = svgElement();
+  const svg = heroSVG();
+  const portraits = getPortraits(familyObject);
 
   console.log(JSON.stringify(familyObject, null, 2));
+
+
 
   const portrait = newElement("image");
   portrait.setAttribute("id", "bryant");
