@@ -2,17 +2,17 @@
 
 import getFamilyObject from "./utils.mjs";
 
+// Imported Object
 const familyObject = getFamilyObject();
 
-// Colors
+// Styles
 const styles = getComputedStyle(document.documentElement);
-const mainColor = styles.getPropertyValue("--dark-color");
-const accentColor = styles.getPropertyValue("--dark-accent");
+const mainColor = styles.getPropertyValue("--dark-color").trim();
+const accentColor = styles.getPropertyValue("--dark-accent").trim();
 const className = "logos";
 
-
-// Dimensions
-const heroDimensions = {
+// Specifications
+const heroSpecs = {
   "viewboxSize": 1000,
   "portraitRadius": 168,
   "portraitOffset": 282,
@@ -23,61 +23,87 @@ const heroDimensions = {
     "upperRight": "600 -600"
   }
 };
-const size = heroDimensions.viewboxSize;
+const size = heroSpecs.viewboxSize;
 const minXY = -size / 2;
-const radius = heroDimensions.portraitRadius;
-const offset = heroDimensions.portraitOffset;
+const radius = heroSpecs.portraitRadius;
+const offset = heroSpecs.portraitOffset;
 const wingspan = radius + offset;
-const ll = heroDimensions.controlPoints.lowerLeft;
-const ul = heroDimensions.controlPoints.upperLeft;
-const lr = heroDimensions.controlPoints.lowerRight;
-const ur = heroDimensions.controlPoints.upperRight;
+const stops = {
+  "first": {
+    "offset": radius / offset,
+    "color": mainColor
+  },
+  "second": {
+    "offset": 1,
+    "color": accentColor
+  }
+};
+const ll = heroSpecs.controlPoints.lowerLeft;
+const ul = heroSpecs.controlPoints.upperLeft;
+const lr = heroSpecs.controlPoints.lowerRight;
+const ur = heroSpecs.controlPoints.upperRight;
 
+// SVG Elements
 
-// Elements
+//\ New Element Constructor
 const newElement = (type) => {
   return document.createElementNS("http://www.w3.org/2000/svg", type)
 };
 
+//\ Color Stop
+const stop = (order) => {
+  const stop = newElement("stop");
+  stop.setAttribute("offset", stops[order].offset);
+  stop.setAttribute("stop-color", stops[order].color);
+  return stop;
+};
+
+//\ Radial Gradient
+const radialGradient = (side) => {
+  const numerator = side === "left" ? radius : offset;
+  const radialGradient = newElement("radialGradient");
+  radialGradient.setAttribute("id", `${side}-gradient`);
+  radialGradient.setAttribute("cx", numerator / wingspan);
+  radialGradient.setAttribute("cy", "0.5");
+  radialGradient.setAttribute("r", offset / wingspan);
+
+  //\/ Adding stops to the gradient
+  const firstStop = stop("first");
+  const secondStop = stop("second");
+  radialGradient.appendChild(firstStop);
+  radialGradient.appendChild(secondStop);
+
+  return radialGradient;
+}
+
+
+//\ Main Container SVG
 const heroSVG = () => {
 
-  // SVG Specifications
+  //\/ SVG Setup
   const svg = newElement("svg");
   svg.setAttribute("width", size);
   svg.setAttribute("height", size);
   svg.setAttribute("viewBox", `${minXY} ${minXY} ${size} ${size}`);
 
-  // Clip Path and Gradient Block
+  //\/ Clip Path and Gradient Blocks
   const defs = newElement("defs");
+  
+  //\/\ Portrait Frame
   const frameClip = newElement("clipPath");
   frameClip.setAttribute("id", "frame");
+
   const frameShape = newElement("circle");
   frameShape.setAttribute("cx", "0");
   frameShape.setAttribute("cy", "0");
   frameShape.setAttribute("r", radius);
-  const leftRadialGradient = newElement("radialGradient");
-  leftRadialGradient.setAttribute("id", "left-gradient");
-  leftRadialGradient.setAttribute("cx", radius / wingspan);
-  leftRadialGradient.setAttribute("cy", "0.5");
-  leftRadialGradient.setAttribute("r", offset / wingspan);
-  const rightRadialGradient = newElement("radialGradient");
-  rightRadialGradient.setAttribute("id", "right-gradient");
-  rightRadialGradient.setAttribute("cx", offset / wingspan);
-  rightRadialGradient.setAttribute("cy", "0.5");
-  rightRadialGradient.setAttribute("r", offset / wingspan);
-  const stop1 = newElement("stop");
-  stop1.setAttribute("offset", radius / offset);
-  stop1.setAttribute("stop-color", mainColor);
-  const stop2 = newElement("stop");
-  stop2.setAttribute("offset", "1");
-  stop2.setAttribute("stop-color", accentColor);
 
-  // Object Assembly
+  //\/\ Gradients
+  const leftRadialGradient = radialGradient("left");
+  const rightRadialGradient = radialGradient("right");
+
+  //\/ Object Assembly
   frameClip.appendChild(frameShape);
-  leftRadialGradient.appendChild(stop1);
-  leftRadialGradient.appendChild(stop2);
-  rightRadialGradient.appendChild(stop1);
-  rightRadialGradient.appendChild(stop2);
   defs.appendChild(frameClip);
   defs.appendChild(leftRadialGradient);
   defs.appendChild(rightRadialGradient);
@@ -86,6 +112,7 @@ const heroSVG = () => {
   return svg;
 }
 
+// Portrait Element
 const portrait = (attributes) => {
   const id = attributes.id;
   const path = `assets/images/${id}.${attributes.extension}`;
@@ -99,6 +126,7 @@ const portrait = (attributes) => {
   return image;
 };
 
+// Frame Element for Individual
 const roundFrame = () => {
   const circle = newElement('circle');
   circle.setAttribute("class", className);
@@ -108,6 +136,7 @@ const roundFrame = () => {
   return circle;
 }
 
+// Frame Element for Couple
 const loopFrame = () => {
   const infinityLoop = newElement("path");
   infinityLoop.setAttribute("class", className);
@@ -115,9 +144,11 @@ const loopFrame = () => {
   return infinityLoop;
 }
 
-const mat = (isLeft) => {
+// Background Filler for Loop Frame
+const mat = (alignment) => {
+  const isLeft = alignment === "left";
   const d = isLeft ? `M 0 0 C ${ll}, ${ul}, 0 0` : `M 0 0 C ${lr}, ${ur}, 0 0`;
-  const href = isLeft ? "url(#left-gradient)" : "url(#right-gradient)";
+  const href = `url(#${alignment}-gradient)`;
   const filler = newElement("path");
   filler.setAttribute("d", d);
   filler.setAttribute("fill", href);
@@ -126,10 +157,15 @@ const mat = (isLeft) => {
 
 // Recursive Function
 function addElements(family, generation, parent, portraits, groups) {
-  // Parents
+
+  //\ Parents
   const parents = family.parents;
+  
+  //\/ Pick Sides and Create Group Element
   const sides = Math.random() < 0.5 ? ["left", "right"] : ["right", "left"];
   const groupElement = newElement("g");
+
+  //\/ Add Portrait
   parents.forEach((parent, index, array) => {
     const alignment = array.length === 1 ? "center" : sides[index];
     const imageElement = parent.portrait ? portrait(parent.portrait) : roundFrame();
@@ -143,7 +179,7 @@ function addElements(family, generation, parent, portraits, groups) {
       groupElement.appendChild(imageElement);
       groupElement.appendChild(circleElement);
     } else {
-      const fillElement = mat(alignment === "left");
+      const fillElement = mat(alignment);
       groupElement.appendChild(fillElement);
       groupElement.appendChild(imageElement);
       if (index === 1) {
