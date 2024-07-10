@@ -11,9 +11,9 @@ const portraits = [
   {
     "id": "vanessa",
     "extension": "jpg",
-    "x": -830,
-    "y": -190,
-    "width": 1150
+    "x": -300,
+    "y": -250,
+    "width": 1300
   },
   {
     "id": "jacob",
