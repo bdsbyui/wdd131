@@ -3,120 +3,123 @@
 import getFamilyObject from "./utils.mjs";
 
 // Imported Object
-const familyObject = getFamilyObject();
+const family = getFamilyObject();
 
-// Styles
+// Structure
+const controlPointMagnitude = 600;
+const portraitOffset = 282;
+const portraitRadius = 168;
+const viewboxSize = 1000;
+const viewboxMinimum = -viewboxSize / 2;
+const lobeWidth = portraitOffset + portraitRadius;
+const lowerLeft = `-${controlPointMagnitude},${controlPointMagnitude}`;
+const lowerRight = `${controlPointMagnitude},${controlPointMagnitude}`;
+const upperLeft = `-${controlPointMagnitude},-${controlPointMagnitude}`;
+const upperRight = `${controlPointMagnitude},-${controlPointMagnitude}`;
+const paths = {
+  "infinityLoop": `M 0,0 C ${lowerLeft} ${upperLeft} 0,0 S ${upperRight} 0,0`,
+  "leftLobe": `M 0,0 C ${lowerLeft} ${upperLeft} 0,0`,
+  "rightLobe": `M 0,0 C ${lowerRight} ${upperRight} 0,0`
+};
+
+// Style
 const styles = getComputedStyle(document.documentElement);
 const mainColor = styles.getPropertyValue("--dark-color").trim();
 const accentColor = styles.getPropertyValue("--dark-accent").trim();
-const className = "logos";
-
-// Specifications
-const heroSpecs = {
-  "viewboxSize": 1000,
-  "portraitRadius": 168,
-  "portraitOffset": 282,
-  "controlPoints": {
-    "lowerLeft": "-600 600",
-    "upperLeft": "-600 -600",
-    "lowerRight": "600 600",
-    "upperRight": "600 -600"
-  }
-};
-const size = heroSpecs.viewboxSize;
-const minXY = -size / 2;
-const radius = heroSpecs.portraitRadius;
-const offset = heroSpecs.portraitOffset;
-const wingspan = radius + offset;
+const textColor = styles.getPropertyValue("--light-color").trim();
 const stops = {
-  "first": {
-    "offset": radius / offset,
-    "color": mainColor
-  },
-  "second": {
-    "offset": 1,
-    "color": accentColor
-  }
+  "first": {"offset": portraitRadius / portraitOffset, "color": mainColor},
+  "second": {"offset": 1, "color": accentColor}
 };
-const ll = heroSpecs.controlPoints.lowerLeft;
-const ul = heroSpecs.controlPoints.upperLeft;
-const lr = heroSpecs.controlPoints.lowerRight;
-const ur = heroSpecs.controlPoints.upperRight;
 
-// SVG Elements
-
-//\ New Element Constructor
-const newElement = (type) => {
+// Elements
+const element = (type) => {
   return document.createElementNS("http://www.w3.org/2000/svg", type)
 };
 
-//\ Color Stop
+const circle = (radius) => {
+  const circle = element("circle");
+  circle.setAttribute("cx", "0");
+  circle.setAttribute("cy", "0");
+  circle.setAttribute("r", radius);
+  return circle;
+};
+
+const clip = (id) => {
+  const clip = element("clipPath");
+  clip.setAttribute("id", id);
+  const frame = circle(portraitRadius);
+  clip.appendChild(frame);
+  return clip;
+};
+
+const xFactor = (alignment) => {
+  let xFactor;
+  switch (alignment) {
+    case "left":
+      xFactor = portraitRadius;
+      break;
+    case "right":
+      xFactor = portraitOffset;
+      break;
+    case "center":
+      xFactor = 0.5 * lobeWidth;
+      break;
+  }
+  return xFactor;
+};
+
 const stop = (order) => {
-  const stop = newElement("stop");
+  const stop = element("stop");
   stop.setAttribute("offset", stops[order].offset);
   stop.setAttribute("stop-color", stops[order].color);
   return stop;
 };
 
-//\ Radial Gradient
-const radialGradient = (side) => {
-  const numerator = side === "left" ? radius : offset;
-  const radialGradient = newElement("radialGradient");
-  radialGradient.setAttribute("id", `${side}-gradient`);
-  radialGradient.setAttribute("cx", numerator / wingspan);
-  radialGradient.setAttribute("cy", "0.5");
-  radialGradient.setAttribute("r", offset / wingspan);
+const gradient = (alignment) => {
+  const numerator = xFactor(alignment);
+  const gradient = element("radialGradient");
+  gradient.setAttribute("id", alignment);
+  gradient.setAttribute("cx", numerator / lobeWidth);
+  gradient.setAttribute("cy", "0.5");
+  gradient.setAttribute("r", portraitOffset / lobeWidth);
+  const stop1 = stop("first");
+  const stop2 = stop("second");
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  return gradient;
+};
 
-  //\/ Adding stops to the gradient
-  const firstStop = stop("first");
-  const secondStop = stop("second");
-  radialGradient.appendChild(firstStop);
-  radialGradient.appendChild(secondStop);
+const defs = () => {
+  const defs = element("defs");
+  const portraitFrame = clip("frame");
+  const leftGradient = gradient("left");
+  const rightGradient = gradient("right");
+  const centerGradient = gradient("center");
+  defs.appendChild(portraitFrame);
+  defs.appendChild(leftGradient);
+  defs.appendChild(rightGradient);
+  defs.appendChild(centerGradient);
+  return defs;
+};
 
-  return radialGradient;
-}
-
-
-//\ Main Container SVG
-const heroSVG = () => {
-
-  //\/ SVG Setup
-  const svg = newElement("svg");
-  svg.setAttribute("width", size);
-  svg.setAttribute("height", size);
-  svg.setAttribute("viewBox", `${minXY} ${minXY} ${size} ${size}`);
-
-  //\/ Clip Path and Gradient Blocks
-  const defs = newElement("defs");
-  
-  //\/\ Portrait Frame
-  const frameClip = newElement("clipPath");
-  frameClip.setAttribute("id", "frame");
-
-  const frameShape = newElement("circle");
-  frameShape.setAttribute("cx", "0");
-  frameShape.setAttribute("cy", "0");
-  frameShape.setAttribute("r", radius);
-
-  //\/\ Gradients
-  const leftRadialGradient = radialGradient("left");
-  const rightRadialGradient = radialGradient("right");
-
-  //\/ Object Assembly
-  frameClip.appendChild(frameShape);
-  defs.appendChild(frameClip);
-  defs.appendChild(leftRadialGradient);
-  defs.appendChild(rightRadialGradient);
-  svg.appendChild(defs);
-
+const svg = () => {
+  const svg = element("svg");
+  svg.setAttribute("width", viewboxSize);
+  svg.setAttribute("height", viewboxSize);
+  svg.setAttribute(
+    "viewBox", 
+    `${viewboxMinimum} ${viewboxMinimum} ${viewboxSize} ${viewboxSize}`
+  );
+  const defsBlock = defs();
+  svg.appendChild(defsBlock);
   return svg;
-}
+};
 
-// Portrait Element
-const portrait = (attributes) => {
+const image = (attributes) => {
   const id = attributes.id;
   const path = `assets/images/${id}.${attributes.extension}`;
-  const image = newElement("image");
+  const image = element("image");
   image.setAttribute("id", id);
   image.setAttribute("x", attributes.x);
   image.setAttribute("y", attributes.y);
@@ -126,95 +129,98 @@ const portrait = (attributes) => {
   return image;
 };
 
-// Frame Element for Individual
+const name = (person) => {
+  const name = element("text");
+  name.setAttribute("stroke", textColor);
+  name.setAttribute("fill", textColor);
+  name.setAttribute("font-size", "75px");
+  name.setAttribute("text-anchor", "middle");
+  name.setAttribute("alignment-baseline", "middle");
+  name.textContent = person.name;
+  return name;
+};
+
 const roundFrame = () => {
-  const circle = newElement('circle');
-  circle.setAttribute("class", className);
-  circle.setAttribute('cx', "0");
-  circle.setAttribute('cy', "0");
-  circle.setAttribute('r', radius);
-  return circle;
-}
+  const roundFrame = circle(portraitRadius);
+  roundFrame.setAttribute("fill", "transparent");
+  roundFrame.setAttribute("stroke", accentColor);
+  roundFrame.setAttribute("stroke-width", "7");
+  return roundFrame;
+};
 
-// Frame Element for Couple
-const loopFrame = () => {
-  const infinityLoop = newElement("path");
-  infinityLoop.setAttribute("class", className);
-  infinityLoop.setAttribute("d", `M 0 0 C ${ll}, ${ul}, 0 0 S ${ur}, 0 0`);
-  return infinityLoop;
-}
+const infinityFrame = () => {
+  const infinityFrame = element("path");
+  infinityFrame.setAttribute("d", paths.infinityLoop);
+  infinityFrame.setAttribute("fill", "transparent");
+  infinityFrame.setAttribute("stroke", accentColor);
+  infinityFrame.setAttribute("stroke-width", "7");
+  return infinityFrame;
+};
 
-// Background Filler for Loop Frame
 const mat = (alignment) => {
-  const isLeft = alignment === "left";
-  const d = isLeft ? `M 0 0 C ${ll}, ${ul}, 0 0` : `M 0 0 C ${lr}, ${ur}, 0 0`;
-  const href = `url(#${alignment}-gradient)`;
-  const filler = newElement("path");
-  filler.setAttribute("d", d);
-  filler.setAttribute("fill", href);
-  return filler;
-}
+  const d = alignment === "left" ? paths.leftLobe : paths.rightLobe;
+  const mat = element("path");
+  mat.setAttribute("d", d);
+  mat.setAttribute("fill", `url(#${alignment})`);
+  return mat;
+};
 
-// Recursive Function
-function addElements(family, generation, parent, portraits, groups) {
+// Functions
+function addElements(family, generation, parent, portraits, households) {
 
-  //\ Parents
-  const parents = family.parents;
-  
-  //\/ Pick Sides and Create Group Element
+  // Parents
   const sides = Math.random() < 0.5 ? ["left", "right"] : ["right", "left"];
-  const groupElement = newElement("g");
-
-  //\/ Add Portrait
+  const household = element("g");
+  const parents = family.parents;
   parents.forEach((parent, index, array) => {
+
+    // Portrait
     const alignment = array.length === 1 ? "center" : sides[index];
-    const imageElement = parent.portrait ? portrait(parent.portrait) : roundFrame();
-    portraits.push({
-      "generation": generation,
-      "alignment": alignment,
-      "portrait": imageElement
-    });
+    const portrait = parent.portrait ? image(parent.portrait) : name(parent);
+    portraits.push(
+      {"generation": generation, "alignment": alignment, "portrait": portrait}
+    );
+
+    // Mat and Frame
     if (alignment === "center") {
-      const circleElement = roundFrame();
-      groupElement.appendChild(imageElement);
-      groupElement.appendChild(circleElement);
-    } else {
-      const fillElement = mat(alignment);
-      groupElement.appendChild(fillElement);
-      groupElement.appendChild(imageElement);
+      const soloFrame = roundFrame();
+      household.appendChild(portrait);
+      household.appendChild(soloFrame);
+    }
+    else {
+      const fill = mat(alignment);
+      household.appendChild(fill);
+      household.appendChild(portrait);
       if (index === 1) {
-        const pathElement = loopFrame();
-        groupElement.appendChild(pathElement);
+        const coupleFrame = infinityFrame();
+        household.appendChild(coupleFrame);
       }
     }
   });
-  groups.push({
-    "generation": generation,
-    "parent": parent,
-    "group": groupElement
-  });
+
+  households.push(
+    {"generation": generation, "parent": parent, "household": household}
+  );
+
   // Children
-  const children = family.children;
   generation++;
   parent = parents[0].name;
-  if (children.length) {
-    children.forEach((child) => {
-      addElements(child, generation, parent, portraits, groups);
-    });
-  }
+  const children = family.children;
+  if (children.length) {children.forEach((child) => {
+    addElements(child, generation, parent, portraits, households);
+  })}
 }
 
-// Wrapper Function
-const svgElements = (family, generation, parent) => {
+function getElements(family, generation, parent) {
   const portraits = [];
-  const groups = [];
-  addElements(family, generation, parent, portraits, groups);
-  return [portraits, groups];
+  const households = [];
+  addElements(family, generation, parent, portraits, households);
+  return [portraits, households];
 }
 
-export function loadHero() {
-  const svg = heroSVG();
-  const [portraits, groups] = svgElements(familyObject, 0, null);
+export function loadSVG() {
+  const hero = svg();
+  const [portraits, households] = getElements(family, 0, null);
 
   portraits.map(portrait => {
     let xTranslation;
@@ -223,18 +229,35 @@ export function loadHero() {
         xTranslation = 0;
         break;
       case "left":
-        xTranslation = -offset;
+        xTranslation = -portraitOffset;
         break;
       case "right":
-        xTranslation = offset;
+        xTranslation = portraitOffset;
     }
     portrait.portrait.setAttribute("transform", `translate(${xTranslation}, 0)`);
-  })
+  });
 
-  const test = groups.filter((group) => group.generation === 0);
-  svg.appendChild(test[0].group);
-  // console.log(JSON.stringify(familyObject, null, 2));
-  document.querySelector("#hero").appendChild(svg);
+  households.map(household => {
+    let scale;
+    switch (household.generation) {
+      case 0:
+        scale = 1;
+        break;
+      case 1:
+        scale = 1 / 3;
+        break;
+      case 2:
+        scale = 1 / 9;
+    }
+    household.household.setAttribute("transform", `scale(${scale})`);
+  });
+
+  households.map(household => {
+    hero.appendChild(household.household);
+  });
+
+  document.querySelector("#hero").appendChild(hero);
+  // console.log(JSON.stringify(family, null, 2));
   
   // const rotationDuration = 120000 // two minutes
   // const revolutionDuration = 300000 // five minutes
@@ -256,4 +279,4 @@ export function loadHero() {
 
 }
 
-export default loadHero;
+export default loadSVG;

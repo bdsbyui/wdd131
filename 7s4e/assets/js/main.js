@@ -1,10 +1,10 @@
 /* wdd131/7s4e/assets/js/main.js */
 
-import loadHero from "./svg.mjs";
+import loadSVG from "./svg.mjs";
 // import * as svg from "./svg.mjs";
 
 // Hero SVG
-document.addEventListener("DOMContentLoaded", loadHero);
+document.addEventListener("DOMContentLoaded", loadSVG);
 
 // Make icons clickable
 document.addEventListener("DOMContentLoaded", () => {

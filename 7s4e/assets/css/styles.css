@@ -71,6 +71,11 @@ button {
 .logos.menu, logos.site-plan {
   stroke-linecap: round;
 }
+.nameCard {
+  stroke: var(--light-color);
+  fill: var(--light-color);
+  font-size: 75px;
+}
 
 /* base, layout, components, themes, page, utilities */
 /* .block__element--modifier */
