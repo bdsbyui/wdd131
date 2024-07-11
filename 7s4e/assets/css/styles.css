@@ -71,6 +71,11 @@ button {
 .logos.menu, logos.site-plan {
   stroke-linecap: round;
 }
+.frames {
+  fill: transparent;
+  stroke: var(--dark-accent, #333);
+  stroke-width: 7;
+}
 .nameCard {
   stroke: var(--light-color);
   fill: var(--light-color);

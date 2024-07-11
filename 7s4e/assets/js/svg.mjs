@@ -165,6 +165,20 @@ const mat = (alignment) => {
   return mat;
 };
 
+const rotation = (clockwise) => {
+  const to = clockwise ? "360 0 0" : "-360 0 0";
+  const rotation = element("animateTransform");
+  rotation.setAttribute("attributeName", "transform");
+  rotation.setAttribute("attributeType", "XML");
+  rotation.setAttribute("type", "rotate");
+  rotation.setAttribute("from", "transform");
+  rotation.setAttribute("to", to);
+  rotation.setAttribute("begin", "0s");
+  rotation.setAttribute("dur", "2m");
+  rotation.setAttribute("repeatCount", "indefinite");
+  return rotation;
+};
+
 // Functions
 function addElements(family, generation, parent, portraits, households) {
 
@@ -218,6 +232,54 @@ function getElements(family, generation, parent) {
   return [portraits, households];
 }
 
+function animateHouseholds(households) {
+  const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+  households.forEach((household) => {
+    if (household.generation === 1) {
+      const householdElement = household.household;
+      householdElement.setAttribute("transform", `scale(${1 / 3})`);
+
+      const animateMotion = element("animateMotion");
+      animateMotion.setAttribute("path", paths.infinityLoop);
+      animateMotion.setAttribute("begin", "0s");
+      animateMotion.setAttribute("dur", `${duration}ms`);
+      animateMotion.setAttribute("repeatCount", "indefinite");
+
+      const rotateClockwise = element("animateTransform");
+      rotateClockwise.setAttribute("attributeName", "transform");
+      rotateClockwise.setAttribute("attributeType", "XML");
+      rotateClockwise.setAttribute("type", "rotate");
+      rotateClockwise.setAttribute("from", "0 0 0");
+      rotateClockwise.setAttribute("to", "360 0 0");
+      rotateClockwise.setAttribute("begin", "0s");
+      rotateClockwise.setAttribute("dur", "2m");
+      rotateClockwise.setAttribute("repeatCount", "indefinite");
+
+      householdElement.appendChild(animateMotion);
+      householdElement.appendChild(rotateClockwise);
+    }
+  });
+}
+
+function animatePortraits(portraits) {
+  portraits.forEach((portrait) => {
+    const portraitElement = portrait.portrait;
+
+    const rotateCounterclockwise = element("animateTransform");
+    rotateCounterclockwise.setAttribute("attributeName", "transform");
+    rotateCounterclockwise.setAttribute("attributeType", "XML");
+    rotateCounterclockwise.setAttribute("type", "rotate");
+    rotateCounterclockwise.setAttribute("from", "0 0 0");
+    rotateCounterclockwise.setAttribute("to", "-360 0 0");
+    rotateCounterclockwise.setAttribute("begin", "0s");
+    rotateCounterclockwise.setAttribute("dur", "2m");
+    rotateCounterclockwise.setAttribute("repeatCount", "indefinite");
+
+    portraitElement.appendChild(rotateCounterclockwise);
+  });
+}
+
 export function loadSVG() {
   const hero = svg();
   const [portraits, households] = getElements(family, 0, null);
@@ -257,26 +319,10 @@ export function loadSVG() {
   });
 
   document.querySelector("#hero").appendChild(hero);
-  // console.log(JSON.stringify(family, null, 2));
-  
-  // const rotationDuration = 120000 // two minutes
-  // const revolutionDuration = 300000 // five minutes
-  // const start = performance.now();
 
-  // function animateElements(timestamp) {
-  //   const elapsed = timestamp - start;
-  //   const rotationProgress = (elapsed % rotationDuration) / rotationDuration;
-  //   const portraitRotation = -360 * rotationProgress;
-  //   const loopRotation = 360 * rotationProgress;
-  //   portrait.setAttribute(
-  //     "transform", 
-  //     `translate(-282, 0) rotate(${portraitRotation} 0 0)`
-  //   );
-  //   wingGroup.setAttribute("transform", `rotate(${loopRotation} 0 0)`);
-  //   requestAnimationFrame(animateElements);
-  // }
-  // requestAnimationFrame(animateElements);
-
+  // Add animations
+  animateHouseholds(households);
+  animatePortraits(portraits);
 }
 
 export default loadSVG;
