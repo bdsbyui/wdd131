@@ -1,8 +1,6 @@
 /* wdd131/7s4e/assets/js/main.js */
 
-import loadSVG from "./svg.mjs";
-// import loadSVG from "./svgCopy.mjs";
-// import * as svg from "./svg.mjs";
+import loadSVG from "./hero.mjs";
 
 // Hero SVG
 document.addEventListener("DOMContentLoaded", loadSVG);

@@ -1,143 +1,137 @@
 /* wdd131/7s4e/assets/js/svg.js */
 
-import getFamilyObject from "./utils.mjs";
+export function createCircle(radius, cx=0, cy=0, pathLength=null) {
+  const element = createElement("circle");
+  const parameters = {"r": radius, "cx": cx, "cy": cy, "pathLength": pathLength};
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  return element;
+}
 
-/* IMPORTED OBJECT */
-const family = getFamilyObject();
+export function createClipPath(
+  id, shapeElement, clipPathUnits="userSpaceOnUse"
+) {
+  const element = createElement("clipPath");
+  const parameters = {"id": id, "clipPathUnits": clipPathUnits};
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  element.appendChild(shapeElement);
+  return element;
+}
 
-/* STRUCTURE VALUES */
+export function createDefs(blocks) {
+  const element = createElement("defs");
+  blocks.forEach(block => element.appendChild(block));
+  return element;
+}
 
-// SVG parameters
-const viewboxSize = 1000;
-const viewboxMinimum = -viewboxSize / 2;
-
-// Shapes
-const controlPointMagnitude = 600;
-const portraitOffset = 282;
-const portraitRadius = 168;
-const lobeWidth = portraitOffset + portraitRadius;
-
-// Paths
-const r = portraitRadius;
-const lL = `-${controlPointMagnitude},${controlPointMagnitude}`;
-const lR = `${controlPointMagnitude},${controlPointMagnitude}`;
-const uL = `-${controlPointMagnitude},-${controlPointMagnitude}`;
-const uR = `${controlPointMagnitude},-${controlPointMagnitude}`;
-const paths = {
-  "roundLoop": `M ${r} 1 A ${r} ${r} ${r} 1 1 ${r} -1 Z`,
-  "infinityLoop": `M 0,0 C ${lL} ${uL} 0,0 S ${uR} 0,0`,
-  "leftLobe": `M 0,0 C ${lL} ${uL} 0,0`,
-  "rightLobe": `M 0,0 C ${lR} ${uR} 0,0`
-};
-const imagesPath = "assets/images/";
-
-/* STYLE VALUES */
-
-// Colors
-const styles = getComputedStyle(document.documentElement);
-const mainColor = styles.getPropertyValue("--dark-color").trim();
-const accentColor = styles.getPropertyValue("--dark-accent").trim();
-const textColor = styles.getPropertyValue("--light-color").trim();
-const stops = {
-  "first": {"offset": portraitRadius / portraitOffset, "color": mainColor},
-  "second": {"offset": 1, "color": accentColor}
-};
-
-// Shapes
-const fill = "transparent";
-const strokeWidth = "7";
-
-// Text
-const fontSize = "75px";
-const textAnchor = "middle";
-const alignmentBaseline = "middle";
-
-/* ANIMATION VALUES */
-const rotationDuration = "2m";
-const revolutionDuration = "5m";
-const generationScaleFactor = 3;
-
-/* ELEMENTS */
-
-// SVG namespace element of given type
-const newElement = (type) => {
+export function createElement(type) {
   return document.createElementNS("http://www.w3.org/2000/svg", type);
-};
+}
 
-// Circle element of given radius
-const circleElement = (radius) => {
-  const circle = newElement("circle");
-  circle.setAttribute("cx", "0");
-  circle.setAttribute("cy", "0");
-  circle.setAttribute("r", radius);
-  return circle;
-};
+export function createRadialGradient(
+  id, radius, stops, cx=0.5, cy=0.5, fx=cx, fy=cy, href=null, 
+  gradientUnits="objectBoundingBox", spreadMethod="pad"
+) {
+  const element = createElement("radialGradient");
+  const parameters = {
+    "id": id, "r": radius, "cx": cx, "cy": cy, "fx": fx, "fy": fy, 
+    "href": href, "gradientUnits": gradientUnits, "spreadMethod": spreadMethod
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  stops.forEach(stop => element.appendChild(stop));
+  return element;
+}
 
-// Circular clip path element to crop portraits
-const clipElement = () => {
-  const clip = newElement("clipPath");
-  clip.setAttribute("id", "crop");
-  const frame = circleElement(portraitRadius);
-  clip.appendChild(frame);
-  return clip;
-};
+export function createGroup(id=null) {
+  const element = createElement("g");
+  element.setAttribute("id", id);
+  return element;
+}
 
-// Numerator divided by lobe width to center radial gradient
-const xNumerator = (alignment) => {
-  switch (alignment) {
-    case "left":
-      return portraitRadius;
-    case "right":
-      return portraitOffset;
-    case "center":
-      return 0.5 * lobeWidth;
-  }
-};
+export function createImage(id, href, x, y, width, height="auto", clipID=null) {
+  const element = createElement("image");
+  const parameters = {
+    "id": id, "href": href, "x": x, "y": y, "width": width, "height": height, 
+    "clip-path": `url(#${clipID})`
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  element.appendChild(defs);
+  return element;
+}
 
-// Gradient's color stop element by order of sequence
-const stopElement = (order) => {
-  const stop = newElement("stop");
-  stop.setAttribute("offset", stops[order].offset);
-  stop.setAttribute("stop-color", stops[order].color);
-  return stop;
-};
+export function createPath(d) {
+  const element = createElement("image");
+  element.setAttribute("d", value);
+  return element;
+}
 
-// Radial gradient element with color stops and identified by alignment
-const gradientElement = (alignment) => {
-  const numerator = xNumerator(alignment);
-  const gradient = newElement("radialGradient");
-  gradient.setAttribute("id", alignment);
-  gradient.setAttribute("cx", numerator / lobeWidth);
-  gradient.setAttribute("cy", "0.5");
-  gradient.setAttribute("r", portraitOffset / lobeWidth);
-  gradient.appendChild(stopElement("first"));
-  gradient.appendChild(stopElement("second"));
-  return gradient;
-};
+export function createShape(
+  shapeElement, fill="black", stroke=fill, strokeWidth=1
+) {
+  const element = shapeElement;
+  const parameters = {
+    "fill": fill,  "stroke": stroke, "stroke-width": strokeWidth
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  return element;
+}
 
-// SVG definition block element
-const defsElement = () => {
-  const defs = newElement("defs");
-  defs.appendChild(clipElement());
-  defs.appendChild(gradientElement("left"));
-  defs.appendChild(gradientElement("right"));
-  defs.appendChild(gradientElement("center"));
-  return defs;
-};
+export function createStop(offset=0, stopColor="black", stopOpacity=1) {
+  const element = createElement("stop");
+  const parameters = {
+    "offset": offset, "stop-color": stopColor, "stop-opacity": stopOpacity
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  return element;
+}
 
-// Parent SVG element
-const svgElement = () => {
-  const svg = newElement("svg");
-  svg.setAttribute("width", viewboxSize);
-  svg.setAttribute("height", viewboxSize);
-  svg.setAttribute(
-    "viewBox", 
-    `${viewboxMinimum} ${viewboxMinimum} ${viewboxSize} ${viewboxSize}`
-  );
-  const defsBlock = defsElement();
-  svg.appendChild(defsBlock);
-  return svg;
-};
+export function createSVG(
+  defs, width, height=width, vbMinX=-width/2, vbMinY=-height/2, vbWidth=width, 
+  vbHeight=height
+) {
+  const element = createElement("svg");
+  const parameters = {
+    "width": width, "height": height, 
+    "viewBox": `${vbMinX} ${vbMinY} ${vbWidth} ${vbHeight}`
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  element.appendChild(defs);
+  return element;
+}
+
+export function createText(
+  text, fontSize="20px", stroke="black", fill=stroke, textAnchor="middle", 
+  alignmentBaseline="middle"
+) {
+  const element = createElement("text");
+  const parameters = {
+    "font-size": fontSize, "stroke": stroke, "fill": fill, 
+    "text-anchor": textAnchor, "alignment-baseline": alignmentBaseline
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  element.textContent(text);
+  return element;
+}
+
+
+
+
+
 
 // Animate Transform element to rotate elements, clockwise if true
 const transformRotation = (clockwise, couple=false) => {
@@ -156,33 +150,6 @@ const transformRotation = (clockwise, couple=false) => {
   return rotation;
 };
 
-// Image element with attributes of given object
-const imageElement = (attributes) => {
-  const image = newElement("image");
-  image.setAttribute("id", attributes.id);
-  image.setAttribute("x", attributes.x);
-  image.setAttribute("y", attributes.y);
-  image.setAttribute("width", attributes.width);
-  image.setAttribute(
-    "href", `${imagesPath}${attributes.id}.${attributes.extension}`
-  );
-  image.setAttribute("clip-path", "url(#crop)");
-  image.appendChild(transformRotation(false));
-  return image;
-};
-
-// Text element with name in given person object
-const textElement = (person) => {
-  const name = newElement("text");
-  name.setAttribute("stroke", textColor);
-  name.setAttribute("fill", textColor);
-  name.setAttribute("font-size", fontSize);
-  name.setAttribute("text-anchor", textAnchor);
-  name.setAttribute("alignment-baseline", alignmentBaseline);
-  name.textContent = person.name;
-  name.appendChild(transformRotation(false));
-  return name;
-};
 
 // Circle element to frame of portraits of single family members
 const roundFrame = () => {
