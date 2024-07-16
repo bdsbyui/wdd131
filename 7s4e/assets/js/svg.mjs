@@ -1,22 +1,30 @@
 /* wdd131/7s4e/assets/js/svg.js */
 
-export function createCircle(radius, cx=0, cy=0, pathLength=null) {
-  const element = createElement("circle");
-  const parameters = {"r": radius, "cx": cx, "cy": cy, "pathLength": pathLength};
+export function createAnimateMotion() {
+}
+
+export function createAnimateTransform(type, attributes) {
+  const element = createElement("animateTransform");
+  const parameters = {
+    "attributeName": "transform", "type": type, ...attributes
+  };
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
   return element;
 }
 
-export function createClipPath(
-  id, shapeElement, clipPathUnits="userSpaceOnUse"
-) {
-  const element = createElement("clipPath");
-  const parameters = {"id": id, "clipPathUnits": clipPathUnits};
+export function createCircle(radius, cx=0, cy=0) {
+  const element = createElement("circle");
+  const parameters = {"cx": cx, "cy": cy, "r": radius};
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
+  return element;
+}
+
+export function createClipPath(shapeElement) {
+  const element = createElement("clipPath");
   element.appendChild(shapeElement);
   return element;
 }
@@ -31,15 +39,9 @@ export function createElement(type) {
   return document.createElementNS("http://www.w3.org/2000/svg", type);
 }
 
-export function createRadialGradient(
-  id, radius, stops, cx=0.5, cy=0.5, fx=cx, fy=cy, href=null, 
-  gradientUnits="objectBoundingBox", spreadMethod="pad"
-) {
+export function createRadialGradient(stops, radius, cx=0.5, cy=0.5) {
   const element = createElement("radialGradient");
-  const parameters = {
-    "id": id, "r": radius, "cx": cx, "cy": cy, "fx": fx, "fy": fy, 
-    "href": href, "gradientUnits": gradientUnits, "spreadMethod": spreadMethod
-  };
+  const parameters = {"cx": cx, "cy": cy, "r": radius};
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
@@ -47,42 +49,39 @@ export function createRadialGradient(
   return element;
 }
 
-export function createGroup(id=null) {
+export function createGroup(array=null) {
   const element = createElement("g");
-  element.setAttribute("id", id);
+  array.forEach(member => element.appendChild(member));
   return element;
 }
 
-export function createImage(id, href, x, y, width, height="auto", clipID=null) {
+export function createImage(href, x, y, width, height="auto") {
   const element = createElement("image");
   const parameters = {
-    "id": id, "href": href, "x": x, "y": y, "width": width, "height": height, 
-    "clip-path": `url(#${clipID})`
+    "x": x, "y": y, "width": width, "height": height, "href": href
   };
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
-  element.appendChild(defs);
   return element;
 }
 
 export function createPath(d) {
-  const element = createElement("image");
-  element.setAttribute("d", value);
+  const element = createElement("path");
+  element.setAttribute("d", d);
   return element;
 }
 
 export function createShape(
   shapeElement, fill="black", stroke=fill, strokeWidth=1
 ) {
-  const element = shapeElement;
   const parameters = {
     "fill": fill,  "stroke": stroke, "stroke-width": strokeWidth
   };
   Object.entries(parameters).forEach(([key, value]) => {
-    element.setAttribute(key, value);
+    shapeElement.setAttribute(key, value);
   });
-  return element;
+  return shapeElement;
 }
 
 export function createStop(offset=0, stopColor="black", stopOpacity=1) {
@@ -113,12 +112,12 @@ export function createSVG(
 }
 
 export function createText(
-  text, fontSize="20px", stroke="black", fill=stroke, textAnchor="middle", 
+  text, fontSize="20px", fill="black", stroke=fill, textAnchor="middle", 
   alignmentBaseline="middle"
 ) {
   const element = createElement("text");
   const parameters = {
-    "font-size": fontSize, "stroke": stroke, "fill": fill, 
+    "font-size": fontSize, "fill": fill, "stroke": stroke, 
     "text-anchor": textAnchor, "alignment-baseline": alignmentBaseline
   };
   Object.entries(parameters).forEach(([key, value]) => {
@@ -127,7 +126,6 @@ export function createText(
   element.textContent(text);
   return element;
 }
-
 
 
 

@@ -67,26 +67,15 @@ const fontSize = "75px";
 const rotationDuration = "2m";
 const revolutionDuration = "5m";
 const generationScaleFactor = 3;
+const rotationAttributes = (clockwise) => {return {
+  "from": "0 0 0",
+  "to": `${clockwise ? "360 0 0" : "-360 0 0"}`,
+  "dur": "2m",
+  "repeatCount": "indefinite"
+};}
+
 
 /* SVG ELEMENTS */
-
-const clipPath = svg.createClipPath(
-  "portraitCrop", 
-  svg.createCircle(portraitRadius)
-);
-
-const stops = colorStops.forEach(stop => {
-  return svg.createStop(stop.offset, stop.color);
-});
-
-const gradients = ["left", "right", "center"].forEach(alignment => {
-  return svg.createRadialGradient(
-    alignment, gradientRadius, stops, gradientCx(alignment))
-});
-
-const defs = svg.createDefs([...[clipPath], ...gradients]);
-
-const hero = svg.createSVG(defs, viewboxSize);
 
 const roundFrame = svg.createShape(
   svg.createCircle(portraitRadius), fill, accentColor, strokeWidth
@@ -113,37 +102,52 @@ const mat = (alignment) => {
  * @param {Number} generation - Generation of parents
  * @param {String} parent - Name of parent to which children are assigned
  * @param {Number} siblings - Number of sibling households
- * @param {Array} portraits - Objects of portrait elements and metadata
  * @param {Array} households - Objects of household elements and metadata
  * @return {void} Modified arrays are passed by reference
  */
-function addElements(
-  family, generation, parent, siblings, portraits, households
-) {
+function addElements(family, generation, parent, siblings, households) {
 
   // Parent(s) for whom household elements is created
   const parents = family.parents;
   const couple = parents.length === 2;
-  const household = svg.createGroup(parents[0].name);
+  const household = svg.createGroup();
+  household.setAttribute("id", parents[0].name);
 
   parents.forEach((parent, index, array) => {
     
     // Portrait
     const alignment = couple ? ["left", "right"][index] : "center";
-    const p = parent.portrait;
-    const portrait = p ? svg.createImage(
-      p.id, `${imagesPath}${p.id}.${p.extension}`, p.x, p.y, p.width, undefined, 
-      "portraitCrop"
+    const pp = parent.portrait;
+    const portrait = pp ? svg.createImage(
+      `${imagesPath}${pp.id}.${pp.extension}`, pp.x, pp.y, pp.width
     ) : svg.createText(parent.name, fontSize, textColor);
-    portraits.push({"alignment": alignment, "imageElement": portrait});
+    portrait.setAttribute("clip-path", "url(#clip})");
+    portrait.setAttribute("transform", `translate(${portraitOffset * (
+      alignment === "center" ? 0 : (alignment === "left" ? -1 : 1)
+    )}, 0)`);
+    portrait.appendChild(
+      svg.createAnimateTransform("rotate", rotationAttributes(false))
+    );
+
 
     // Mat and Frame
-    const fill = mat(alignment);
-    household.appendChild(fill);
+    household.appendChild(mat(alignment));
     household.appendChild(portrait);
-    const frame = alignment === "center" ? roundFrame : infinityFrame;
-    if (index === array.length - 1) household.appendChild(frame);
+    if (index === array.length - 1) {
+      household.appendChild(
+        alignment === "center" ? roundFrame : infinityFrame
+      );
+    }
   });
+  
+  household.setAttribute("transform", `${
+    couple && generation > 0 ? `translate(-${portraitOffset}, 0)` : ''
+  } ${
+    `scale(${1 / Math.pow(generationScaleFactor, generation)})`
+  }`);
+  household.appendChild(
+    svg.createAnimateTransform("rotate", rotationAttributes(true))
+  );
 
   households.push({
     "couple": couple, 
@@ -169,13 +173,12 @@ function addElements(
  * @param {Number} generation - Generation of parents
  * @param {String} parent - Name of parent to which children are assigned
  * @param {Number} siblings - Number of household's siblings
- * @return {Array} Returns arrays modified by addElements()
+ * @return {Array} Returns array modified by addElements()
  */
 function getElements(family, generation, parent, siblings) {
-  const portraits = [];
   const households = [];
-  addElements(family, generation, parent, siblings, portraits, households);
-  return [portraits, households];
+  addElements(family, generation, parent, siblings, households);
+  return households;
 }
 
 /**loadSVG()
@@ -183,46 +186,31 @@ function getElements(family, generation, parent, siblings) {
  */
 export function loadSVG() {
 
-  // Initialize SVG element
-  const hero = svgElement();
+  // Initialize SVG
+  const clipPath = svg.createClipPath(svg.createCircle(portraitRadius));
+  clipPath.setAttribute("id", "clip");
+
+  const stops = colorStops.forEach(stop => {
+    return svg.createStop(stop.offset, stop.color);
+  });
+
+  const gradients = ["left", "right", "center"].forEach(alignment => {
+    const gradient = svg.createRadialGradient(
+      stops, gradientRadius, gradientCx(alignment)
+    );
+    gradient.setAttribute("id", alignment);
+    return gradient;
+  });
+  
+  const defs = svg.createDefs([...[clipPath], ...gradients]);
+  const hero = svg.createSVG(defs, viewboxSize);  
 
   // Generate child elements
-  const [portraits, households] = 
-    getElements(family, 0, null, null);
+  const households = getElements(family, 0, null, null);
   
-  // Align portrait elements: left and right for couples, center for singles
-  portraits.map(portrait => {
-    let offset;
-    switch (portrait.alignment) {
-      case "center":
-        offset = 0;
-        break;
-      case "left":
-        offset = -portraitOffset;
-        break;
-      case "right":
-        offset = portraitOffset;
-    }
-    portrait.portraitElement.setAttribute(
-      "transform", `translate(${offset}, 0)`
-    );
-  });
 
   // Iterate through household elements
   households.map(household => {
-
-    // Shift center of married children
-    if (household.couple && household.generation > 0) {
-      household.householdElement.setAttribute(
-        "transform", `translate(-${portraitOffset}, 0)`
-      );  
-    }
-
-    // Scale households by generation
-    household.householdElement.setAttribute(
-      "transform", 
-      `scale(${1 / Math.pow(generationScaleFactor, household.generation)})`
-    );
 
     // Add animation
     if (household.siblings) {
