@@ -1,6 +1,12 @@
 /* wdd131/7s4e/assets/js/svg.js */
 
-export function createAnimateMotion() {
+export function createAnimateMotion(path, attributes) {
+  const element = createElement("animateMotion");
+  const parameters = {"path": path, ...attributes};
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  return element;
 }
 
 export function createAnimateTransform(type, attributes) {

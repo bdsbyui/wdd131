@@ -64,15 +64,24 @@ const strokeWidth = "7";
 const fontSize = "75px";
 
 /* ANIMATION VALUES */
-const rotationDuration = "2m";
+const rotationAttributes = (clockwise) => {
+  return {
+    "from": "0 0 0",
+    "to": `${clockwise ? "360 0 0" : "-360 0 0"}`,
+    "dur": "2m",
+    "repeatCount": "indefinite"
+  };
+}
+const rolutionAttributes = (siblings) => {
+  return {
+    "from": "0 0 0",
+    "to": `${siblings ? "360 0 0" : "-360 0 0"}`,
+    "dur": "2m",
+    "repeatCount": "indefinite"
+  };
+}
 const revolutionDuration = "5m";
 const generationScaleFactor = 3;
-const rotationAttributes = (clockwise) => {return {
-  "from": "0 0 0",
-  "to": `${clockwise ? "360 0 0" : "-360 0 0"}`,
-  "dur": "2m",
-  "repeatCount": "indefinite"
-};}
 
 
 /* SVG ELEMENTS */
@@ -149,6 +158,29 @@ function addElements(family, generation, parent, siblings, households) {
     svg.createAnimateTransform("rotate", rotationAttributes(true))
   );
 
+const animations = siblings ? [] : [];
+
+
+// <animateMotion
+// href="#t"
+// begin="0s"
+// dur="54s"
+// keyPoints="0.1;1"
+// keyTimes="0;1"
+// fill="freeze"
+// >
+// <mpath href="#child-path"/>
+// </animateMotion>
+// <animateMotion
+// href="#t"
+// begin="54s"
+// dur="60s"
+// repeatCount="indefinite"
+// >
+// <mpath href="#child-path"/>
+// </animateMotion>
+
+
   households.push({
     "couple": couple, 
     "generation": generation, 
@@ -159,7 +191,15 @@ function addElements(family, generation, parent, siblings, households) {
 
   // Children for whom addElements() is called
   const children = family.children;
-  siblings = children.length;
+  if (children.length) {
+    let indexes;
+    
+    siblings = {
+      "total": children.length,
+
+    }
+  }
+  // siblings = children.length;
   parent = parents[0].name;
   generation++;
   if (siblings) {children.forEach((child) => {
