@@ -1,11 +1,16 @@
 /* wdd131/7s4e/assets/js/svg.js */
 
-export function createAnimateMotion(path, attributes) {
+export function createAnimateMotion(attributes, path=null) {
   const element = createElement("animateMotion");
-  const parameters = {"path": path, ...attributes};
+  const parameters = attributes;
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
+  if (path) {
+    const pathElement = createElement("mpath");
+    pathElement.setAttribute("href", `url(#${path})`)
+    element.appendChild(pathElement);
+  }
   return element;
 }
 
@@ -57,15 +62,13 @@ export function createRadialGradient(stops, radius, cx=0.5, cy=0.5) {
 
 export function createGroup(array=null) {
   const element = createElement("g");
-  array.forEach(member => element.appendChild(member));
+  if (array) array.forEach(member => element.appendChild(member));
   return element;
 }
 
-export function createImage(href, x, y, width, height="auto") {
+export function createImage(href, x, y, width) {
   const element = createElement("image");
-  const parameters = {
-    "x": x, "y": y, "width": width, "height": height, "href": href
-  };
+  const parameters = {"x": x, "y": y, "width": width, "href": href};
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
@@ -129,6 +132,6 @@ export function createText(
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
-  element.textContent(text);
+  element.textContent = text;
   return element;
 }
