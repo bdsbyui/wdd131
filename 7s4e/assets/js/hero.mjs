@@ -208,7 +208,8 @@ function getMotions(household) {
  * @return {void} Modified elements array is passed by reference
  */
 function addElements(family, attributes, elements) {
-
+  console.log(attributes)/////////////////////////////////////////
+  
   // Parent(s) for whose household the SVG group element is created
   const parents = family.parents;
   const isCouple = parents.length === 2;
@@ -290,6 +291,7 @@ export function loadSVG() {
   
   const defs = svg.createDefs([...[clipPath], ...gradients]);
   const hero = svg.createSVG(defs, viewboxSize);  
+  console.log(hero)/////////////////////////////////////////
 
   // Generate child SVG elements
   const householdAttributes = {
