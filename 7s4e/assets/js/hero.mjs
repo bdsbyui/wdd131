@@ -244,15 +244,15 @@ function addElements(family, attributes, elements) {
   // Children for whom addElements() is called
   const children = family.children;
   if (children.length) {
-
-    // Update household attributes
-    attributes.generation++;
-    attributes.siblingCount = children.length;
-    attributes.parent = parentId;
-
-    // Recursive call on each child
     children.forEach((child, index) => {
+
+      // Update household attributes
+      attributes.generation++;
+      attributes.siblingCount = children.length;
       attributes.siblingIndex = index;
+      attributes.parent = parentId;
+
+      // Recursive call
       addElements(child, attributes, elements);
     })
   }
