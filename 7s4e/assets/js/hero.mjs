@@ -260,11 +260,15 @@ function addElements(family, attributes, elements) {
 
 /**getElements()
  * Calls recursive addElements() function
- * @param {Object} family - Object for family
- * @param {Object} attributes - Object tracking generation, siblings, and parent
  * @return {Array} Returns array modified by addElements()
  */
-function getElements(family, attributes) {
+function getElements() {
+  const attributes = {
+    "generation": 0,
+    "siblingCount": 0,
+    "siblingIndex": null,
+    "parent": null
+  };
   const elements = [];
   addElements(family, attributes, elements);
   return elements;
@@ -294,13 +298,7 @@ export function loadSVG() {
   console.log(hero)/////////////////////////////////////////
 
   // Generate child SVG elements
-  const householdAttributes = {
-    "generation": 0,
-    "siblingCount": 0,
-    "siblingIndex": null,
-    "parent": null
-  };
-  const householdElements = getElements(family, householdAttributes);
+  const householdElements = getElements();
 
   // Append SVG Elements
   householdElements.forEach(element => hero.appendChild(element));
