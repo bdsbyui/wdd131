@@ -63,7 +63,7 @@ const strokeWidth = "7";
 const fontSize = "75px";
 
 /* ANIMATION VALUES */
-const generationScaleFactor = 3;
+const generationScaleFactor = 2;
 const rotationDuration = 2;   // minutes
 const revolutionDuration = 5; // minutes
 const rotationAttributes = (clockwise) => {
@@ -71,7 +71,8 @@ const rotationAttributes = (clockwise) => {
     "from": "0 0 0",
     "to": `${clockwise ? "360 0 0" : "-360 0 0"}`,
     "dur": `${rotationDuration * 60}s`,
-    "repeatCount": "indefinite"
+    "repeatCount": "indefinite",
+    "additive": "sum"
   };
 }
 const revolutionAttributesStaggeredStart = (total, index) => {
@@ -94,7 +95,6 @@ const revolutionAttributesSteadyState = (total, index) => {
   };
 }
 
-
 /* SVG ELEMENTS */
 
 // Portrait frame for single family memembers
@@ -110,9 +110,9 @@ const infinityFrame = svg.createShape(
 // Background filler for any gap between portrait and frame
 const mat = (alignment) => {
   const shape = alignment === "center" ? 
-    svg.createCircle(portraitRadius) : (alignment === "left" ?
-      svg.createPath(paths.leftLobe) : svg.createPath(paths.rightLobe)
-    );
+    svg.createCircle(portraitRadius) : 
+    (alignment === "left" ?
+      svg.createPath(paths.leftLobe) : svg.createPath(paths.rightLobe));
   shape.setAttribute("fill", `url(#${alignment})`);
   return shape;
 };
@@ -136,7 +136,7 @@ function createPortait(person, alignment) {
   ) : svg.createText(person.name, fontSize, textColor);
 
   // Crop and align portrait, and rotate counter-clockwise
-  portrait.setAttribute("clip-path", "url(#clip})");
+  portrait.setAttribute("clip-path", "url(#clip)");
   portrait.setAttribute("transform", `translate(${portraitOffset * (
     alignment === "center" ? 0 : (alignment === "left" ? -1 : 1)
   )}, 0)`);
@@ -156,6 +156,7 @@ function createPortait(person, alignment) {
  * @return {void} - Household group element passed by reference
  */
 function buildHouseholdGroup(parents, isCouple, parentId, svgElement) {
+
   parents.forEach((parent, index, array) => {
     
     // Set alignment and create portrait
@@ -165,8 +166,12 @@ function buildHouseholdGroup(parents, isCouple, parentId, svgElement) {
     // Add mat, portrait, and frame to household group
     svgElement.appendChild(mat(alignment));
     svgElement.appendChild(portrait);
+
     if (index === array.length - 1) {
-      const frame = alignment === "center" ? roundFrame : infinityFrame;
+
+      // Frames unique because of cloneNode method
+      const frame = alignment === "center" ? 
+        roundFrame.cloneNode(true) : infinityFrame.cloneNode(true);
       frame.setAttribute("id", parentId);
       svgElement.appendChild(frame);
     }
@@ -179,26 +184,26 @@ function buildHouseholdGroup(parents, isCouple, parentId, svgElement) {
  * @param {Object} household - Object tracking siblings and parent
  * @return {Array} - Motion elements
  */
-function getMotions(count, index, pathId) {
-  const motions = [];
-  if (sibIdx > 0) {
-    motions.push(svg.createAnimateMotion(
-      revolutionAttributesStaggeredStart(
-        count, 
-        index
-      ),
-      pathId
-    ));
-  }
-  motions.push(svg.createAnimateMotion(
-    revolutionAttributesSteadyState(
-      count, 
-      index
-    ),
-    pathId
-  ));
-  return motions;
-}
+// function getMotions(count, index, pathId) {
+//   const motions = [];
+//   if (index > 0) {
+//     motions.push(svg.createAnimateMotion(
+//       revolutionAttributesStaggeredStart(
+//         count, 
+//         index
+//       ),
+//       pathId
+//     ));
+//   }
+//   motions.push(svg.createAnimateMotion(
+//     revolutionAttributesSteadyState(
+//       count, 
+//       index
+//     ),
+//     pathId
+//   ));
+//   return motions;
+// }
 
 /**addElements()
  * Recursively add objects of SVG elements to arrays of portraits and households
@@ -208,7 +213,6 @@ function getMotions(count, index, pathId) {
  * @return {void} Modified elements array is passed by reference
  */
 function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
-  console.log(family, gen, sibCnt, sibIdx, parent, elements)/////////////////////////////////////////
   
   // Parent(s) for whose household the SVG group element is created
   const parents = family.parents;
@@ -222,9 +226,9 @@ function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
   // Realign married household group and scale by generation
   svgElement.setAttribute(
     "transform", 
-    `${isCouple && gen > 0 ? `translate(-${portraitOffset
-      }, 0)` : ''} ${`scale(${1 / Math.pow(generationScaleFactor, 
-        gen)})`}`
+    `${isCouple && gen > 0 ? `translate(${portraitOffset / Math.pow(
+      generationScaleFactor, gen)}, 0)` : ''} ${`scale(${1 / Math.pow(
+        generationScaleFactor, gen)})`}`
   );
 
   // Rotate household group clockwise
@@ -233,10 +237,10 @@ function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
   );
 
   // Move household group along parent's frame
-  if (sibCnt > 0) {
-    const animations = getMotions(sibCnt, sibIdx, parent);
-    animations.forEach(animation => svgElement.appendChild(animation));
-  }
+//   if (sibCnt > 0) {
+//     const animations = getMotions(sibCnt, sibIdx, parent);
+//     animations.forEach(animation => svgElement.appendChild(animation));
+//   }
 
   // Retain SVG element
   elements.push(svgElement);
@@ -244,16 +248,19 @@ function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
   // Children for whom addElements() is called
   const children = family.children;
   if (children.length) {
+
+    // New generation
+    gen++;
+
     children.forEach((child, index) => {
 
       // Update household attributes
-      gen++;
       sibCnt = children.length;
       sibIdx = index;
       parent = parentId;
 
       // Recursive call
-      addElements(family, gen, sibCnt, sibIdx, parent, elements);
+      addElements(child, gen, sibCnt, sibIdx, parent, elements);
     })
   }
 }
@@ -277,23 +284,27 @@ function getElements() {
  */
 export function loadSVG() {
 
-  // Initialize SVG
+  // Crop portraits
   const clipPath = svg.createClipPath(svg.createCircle(portraitRadius));
   clipPath.setAttribute("id", "clip");
 
-  const stops = colorStops.map(stop => svg.createStop(stop.offset, stop.color));
+  // Clone stops, as gradients cannot share them
+  const clonedStops = () => colorStops.map(
+    stop => svg.createStop(stop.offset, stop.color)
+  );
 
+  // Set graidents by alignment
   const gradients = ["left", "right", "center"].map(alignment => {
     const gradient = svg.createRadialGradient(
-      stops, gradientRadius, gradientCx(alignment)
+      clonedStops(), gradientRadius, gradientCx(alignment)
     );
     gradient.setAttribute("id", alignment);
     return gradient;
   });
-  
-  const defs = svg.createDefs([...[clipPath], ...gradients]);
-  const hero = svg.createSVG(defs, viewboxSize);  
-  console.log(hero)/////////////////////////////////////////
+
+  // Initialize SVG
+  const defs = svg.createDefs([clipPath, ...gradients]);
+  const hero = svg.createSVG(defs, viewboxSize);
 
   // Generate child SVG elements
   const householdElements = getElements();
@@ -301,6 +312,8 @@ export function loadSVG() {
   // Append SVG Elements
   householdElements.forEach(element => hero.appendChild(element));
   document.querySelector("#hero").appendChild(hero);
+  // hero.appendChild(householdElements[0]);
+  // document.querySelector("#hero").appendChild(hero);
 }
 
 export default loadSVG;
