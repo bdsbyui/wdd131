@@ -66,7 +66,9 @@ const fontSize = "75px";
 const generationScaleFactor = 2;
 const rotationDuration = 2;   // minutes
 const revolutionDuration = 5; // minutes
-const rotationAttributes = (clockwise) => {
+const rotationAttributes = (clockwise, generation) => {
+  const a = clockwise ? 360 : -360;
+  const x = generation > 0 ? 0 : 1;
   return {
     "from": "0 0 0",
     "to": `${clockwise ? "360 0 0" : "-360 0 0"}`,
@@ -141,7 +143,7 @@ function createPortait(person, alignment) {
     alignment === "center" ? 0 : (alignment === "left" ? -1 : 1)
   )}, 0)`);
   portrait.appendChild(
-    svg.createAnimateTransform("rotate", rotationAttributes(false))
+    svg.createAnimateTransform("rotate", rotationAttributes(false, 0))
   );
 
   return portrait;
@@ -233,7 +235,7 @@ function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
 
   // Rotate household group clockwise
   svgElement.appendChild(
-    svg.createAnimateTransform("rotate", rotationAttributes(true))
+    svg.createAnimateTransform("rotate", rotationAttributes(true, gen))
   );
 
   // Move household group along parent's frame
