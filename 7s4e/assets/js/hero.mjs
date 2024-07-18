@@ -208,7 +208,7 @@ function getMotions(count, index, pathId) {
  * @return {void} Modified elements array is passed by reference
  */
 function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
-  console.log(generation)/////////////////////////////////////////
+  console.log(family, gen, sibCnt, sibIdx, parent, elements)/////////////////////////////////////////
   
   // Parent(s) for whose household the SVG group element is created
   const parents = family.parents;
