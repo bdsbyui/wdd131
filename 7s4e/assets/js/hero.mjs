@@ -179,23 +179,23 @@ function buildHouseholdGroup(parents, isCouple, parentId, svgElement) {
  * @param {Object} household - Object tracking siblings and parent
  * @return {Array} - Motion elements
  */
-function getMotions(household) {
+function getMotions(count, index, pathId) {
   const motions = [];
-  if (household.siblingIndex > 0) {
+  if (sibIdx > 0) {
     motions.push(svg.createAnimateMotion(
       revolutionAttributesStaggeredStart(
-        household.siblingCount, 
-        household.siblingIndex
+        count, 
+        index
       ),
-      household.parent
+      pathId
     ));
   }
   motions.push(svg.createAnimateMotion(
     revolutionAttributesSteadyState(
-      household.siblingCount, 
-      household.siblingIndex
+      count, 
+      index
     ),
-    household.parent
+    pathId
   ));
   return motions;
 }
@@ -207,8 +207,8 @@ function getMotions(household) {
  * @param {Array} elements - Array of household SVG elements
  * @return {void} Modified elements array is passed by reference
  */
-function addElements(family, attributes, elements) {
-  console.log(attributes)/////////////////////////////////////////
+function addElements(family, gen, sibCnt, sibIdx, parent, elements) {
+  console.log(generation)/////////////////////////////////////////
   
   // Parent(s) for whose household the SVG group element is created
   const parents = family.parents;
@@ -222,9 +222,9 @@ function addElements(family, attributes, elements) {
   // Realign married household group and scale by generation
   svgElement.setAttribute(
     "transform", 
-    `${isCouple && attributes.generation > 0 ? `translate(-${portraitOffset
+    `${isCouple && gen > 0 ? `translate(-${portraitOffset
       }, 0)` : ''} ${`scale(${1 / Math.pow(generationScaleFactor, 
-        attributes.generation)})`}`
+        gen)})`}`
   );
 
   // Rotate household group clockwise
@@ -233,8 +233,8 @@ function addElements(family, attributes, elements) {
   );
 
   // Move household group along parent's frame
-  if (attributes.siblingCount > 0) {
-    const animations = getMotions(attributes);
+  if (sibCnt > 0) {
+    const animations = getMotions(sibCnt, sibIdx, parent);
     animations.forEach(animation => svgElement.appendChild(animation));
   }
 
@@ -247,13 +247,13 @@ function addElements(family, attributes, elements) {
     children.forEach((child, index) => {
 
       // Update household attributes
-      attributes.generation++;
-      attributes.siblingCount = children.length;
-      attributes.siblingIndex = index;
-      attributes.parent = parentId;
+      gen++;
+      sibCnt = children.length;
+      sibIdx = index;
+      parent = parentId;
 
       // Recursive call
-      addElements(child, attributes, elements);
+      addElements(family, gen, sibCnt, sibIdx, parent, elements);
     })
   }
 }
@@ -263,14 +263,12 @@ function addElements(family, attributes, elements) {
  * @return {Array} Returns array modified by addElements()
  */
 function getElements() {
-  const attributes = {
-    "generation": 0,
-    "siblingCount": 0,
-    "siblingIndex": null,
-    "parent": null
-  };
+  let gen = 0;
+  let sibCnt = 0;
+  let sibIdx = null;
+  let parent = null;
   const elements = [];
-  addElements(family, attributes, elements);
+  addElements(family, gen, sibCnt, sibIdx, parent, elements);
   return elements;
 }
 
