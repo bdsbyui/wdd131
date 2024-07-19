@@ -8,7 +8,7 @@ export function createAnimateMotion(attributes, path=null) {
   });
   if (path) {
     const pathElement = createElement("mpath");
-    pathElement.setAttribute("href", `url(#${path})`)
+    pathElement.setAttribute("href", `#${path}`)
     element.appendChild(pathElement);
   }
   return element;
