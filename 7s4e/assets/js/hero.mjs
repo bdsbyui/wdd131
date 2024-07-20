@@ -380,9 +380,6 @@ const updateAnimations = (motionPaths) => {
       points.push(`${transformedPoint.x},${transformedPoint.y}`);
     }
 
-    console.log(`${motionPath.id}: ${points[0]}`);
-  
-  
     const pathCommands = `M${points.join("L")}`;
 
     const motionAnimations = document.querySelectorAll(

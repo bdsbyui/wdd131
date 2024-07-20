@@ -23,7 +23,6 @@
   <title>Seven Smiths Forever</title>
   <link rel="stylesheet" href="assets/css/normalize.css" type="text/css"/>
   <link rel="stylesheet" href="assets/css/styles.css" type="text/css"/>
-  <link rel="stylesheet" href="assets/css/home.css" type="text/css"/>
   <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml"/>  
   <script src="assets/js/main.js" type="module"></script>
 </head>
@@ -31,52 +30,82 @@
 <body>
   <header>
     <div class="width-target">
-      <div class="link-container home-page">
-        <a class="iconLink" href="index.html" title="home page">
-          <object 
-            class="svgObject" 
-            data="assets/images/logo.svg" 
-            type="image/svg+xml"
-            aria-label="home page" 
-          ></object>
-          <span class="tooltip">home page</span>
-        </a>
+      <div class="left-side">
+        <div class="link-container home-page">
+          <a class="iconLink" href="index.html" title="home page">
+            <iframe 
+              class="svgObject" 
+              src="assets/images/logo.svg" 
+              aria-label="home page" 
+              frameborder="0" 
+              scrolling="no"
+            ></iframe>
+            <span class="tooltip">home page</span>
+          </a>
+        </div>
       </div>
-      <div class="link-container menu-icon">
-        <button class="menu-button" aria-label="toggle menu">
-          <object 
-            class="svgObject" 
-            data="assets/images/menu.svg" 
-            type="image/svg+xml"
-            aria-label="site plan" 
-          ></object>
-        </button>
+
+      <div class="right-side">
+        <div class="menu-container">
+          <div class="link-container games-page">
+            <a class="iconLink" href="pages/games.html" title="games page">
+              <iframe 
+                class="svgObject" 
+                src="assets/images/games.svg" 
+                aria-label="games page" 
+                frameborder="0"
+                scrolling="no"
+              ></iframe>
+              <span class="tooltip">games page</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="link-container menu-icon">
+          <button 
+          class="menu-button" 
+          
+          aria-label="toggle menu"
+      >
+      <svg 
+      width="100%"
+      height="100%"
+      viewBox="0 0 180 180"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        class ="logos menu"
+        d="
+          M 25,45 H 155 
+          M 25,90 H 155
+          M 25,135 H 155
+        "
+      />
+    </svg>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <main>
-    <div id="hero" class="content width-source">
-      <!-- <object 
-        class="content" 
-        data="assets/images/infinity.svg" 
-        type="image/svg+xml"
-      ></object> -->
-    </div>
-  </main>
+  <main><div id="hero" class="content width-source"></div></main>
 
   <footer>
     <div class="width-target">
-      <div class="link-container site-plan">
-        <a class="iconLink" href="pages/site-plan.html" title="site plan">
-          <object 
-            class="svgObject" 
-            data="assets/images/sitePlan.svg" 
-            type="image/svg+xml"
-            aria-label="site plan" 
-          ></object>
-          <span class="tooltip">site plan</span>
-        </a>
+      <div class="left-side"></div>
+      <div class="right-side">
+        <div class="link-container site-plan">
+          <a class="iconLink" href="pages/site-plan.html" title="site plan">
+            <iframe 
+              class="svgObject" 
+              src="assets/images/sitePlan.svg"
+              aria-label="site plan" 
+              frameborder="0"
+              scrolling="no"
+            ></iframe>
+            <span class="tooltip">site plan</span>
+          </a>
+        </div>
       </div>
     </div>
   </footer>
