@@ -37,12 +37,12 @@ const family = [
     "spouse": "",
     "parent": "Bryant"
   },
-  {
-    "generation": 2,
-    "name": "baby",
-    "spouse": "",
-    "parent": "Celeste"
-  }
+  // {
+  //   "generation": 2,
+  //   "name": "baby",
+  //   "spouse": "",
+  //   "parent": "Celeste"
+  // }
 ]
 
 export default family
