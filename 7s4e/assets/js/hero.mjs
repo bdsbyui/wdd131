@@ -393,11 +393,11 @@ const updateAnimations = (motionPaths) => {
   });
 }
 
-/**loadSVG()
+/**loadHero()
  * Loads SVG element to the DOM
  * @return {void} DOM modified
  */
-export const loadSVG = () => {
+export const loadHero = () => {
 
   // Crop portraits
   const clipPath = svg.createClipPath(svg.createCircle(portraitRadius));
@@ -432,4 +432,4 @@ export const loadSVG = () => {
   // setInterval(() => {updateAnimations(framePaths);}, 100);
 }
 
-export default loadSVG;
+export default loadHero;

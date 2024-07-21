@@ -8,23 +8,23 @@
   --dark-accent: #488737;
   --light-accent: #dcb7a4;
 }
-
-/* Page Structure */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
+/* Structure for HTML elements */
 html, body {
   height: 100%;
 }
 header, footer {
   position: absolute;
+  z-index: 10;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  z-index: 10;
 }
 header {
   top: 0;
@@ -43,10 +43,11 @@ main {
   align-items: center;
 }
 
-.width-target {
+/* Structure for content classes */
+.header, .footer {
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  margin: 0 auto;
 }
 .left-side, .right-side {
   display: flex;
@@ -58,7 +59,8 @@ main {
 .right-side {
   justify-content: flex-end;
 }
-.link-container {
+
+.link-container, .button-container {
   width: 100px;
   height: 100px;
   display: inline-block;

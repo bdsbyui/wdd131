@@ -50,13 +50,12 @@ export function createElement(type) {
   return document.createElementNS("http://www.w3.org/2000/svg", type);
 }
 
-export function createRadialGradient(stops, radius, cx=0.5, cy=0.5) {
-  const element = createElement("radialGradient");
-  const parameters = {"cx": cx, "cy": cy, "r": radius};
+export function createEllipse(cx, cy, rx, ry) {
+  const element = createElement("ellipse");
+  const parameters = {"cx": cx, "cy": cy, "rx": rx, "ry": ry};
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
-  stops.forEach(stop => element.appendChild(stop));
   return element;
 }
 
@@ -78,6 +77,33 @@ export function createImage(href, x, y, width) {
 export function createPath(d) {
   const element = createElement("path");
   element.setAttribute("d", d);
+  return element;
+}
+
+export function createPolyline(points) {
+  const element = createElement("polyline");
+  element.setAttribute("points", points);
+  return element;
+}
+
+export function createRadialGradient(stops, radius, cx=0.5, cy=0.5) {
+  const element = createElement("radialGradient");
+  const parameters = {"cx": cx, "cy": cy, "r": radius};
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  stops.forEach(stop => element.appendChild(stop));
+  return element;
+}
+
+export function createRectangle(x, y, width, height, rx=0, ry=0) {
+  const element = createElement("rect");
+  const parameters = {
+    "x": x, "y": y, "width": width, "height": height, "rx": rx, "ry": ry
+  };
+  Object.entries(parameters).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
   return element;
 }
 
@@ -116,7 +142,7 @@ export function createSVG(
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
-  element.appendChild(defs);
+  if (defs) element.appendChild(defs);
   return element;
 }
 
