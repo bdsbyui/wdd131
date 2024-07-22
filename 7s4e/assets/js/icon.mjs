@@ -45,14 +45,14 @@ export const gamePageLink = () => {
   allElements.forEach(element => gamePageIcon.appendChild(element));
   
   return html.linkContainer(
-    "game page", gamePageIcon, "/7s4e/pages/games.html"
+    "game page", gamePageIcon, "pages/games.html"
   );
 }
 
 export const logoLink = () => {
   const title = "home page";
   const logo = html.iframe(title, "assets/images/logo.svg");
-  return html.linkContainer(title, logo, "/7s4e/index.html");
+  return html.linkContainer(title, logo, "index.html");
 }
 
 export const sitePlanLink = () => {
@@ -79,6 +79,6 @@ export const sitePlanLink = () => {
   allElements.forEach(elemnt => sitePlanIcon.appendChild(elemnt));
 
   return html.linkContainer(
-    "site plan", sitePlanIcon, "/7s4e/pages/site-plan.html"
+    "site plan", sitePlanIcon, "pages/site-plan.html"
   );
 }

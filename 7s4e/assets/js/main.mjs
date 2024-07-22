@@ -34,15 +34,20 @@ const adjustWidth = () => {
  * @return {void} DOM modified
  */
 const loadBody = async () => {
+  console.log("main: loadBody called");////////////////////////////////////////
   const elements = ["header", "main", "footer"];
   try {
     const fetchPromises = elements.map(async (element) => {
+      console.log(`main>fetchpromises>${element}`);////////////////////////////////////////
       const response = await fetch(`components/${element}.html`);
+      console.log(`main>fetchpromises>${element}>response: ${response.statusText}`);////////////////////////////////////////
       if (!response.ok) {
         throw new Error(`Error loading ${element}: ${response.statusText}`);
       }
       const data = await response.text();
+      console.log(`main>fetchpromises>${element}>data: ${response.data}`);////////////////////////////////////////
       document.querySelector(element).innerHTML = data;
+      console.log(`main>fetchpromises>${element}>innerHTML ${document.querySelector(element).innerHTML}`);////////////////////////////////////////
     });
     await Promise.all(fetchPromises);
   } catch (error) {
@@ -101,7 +106,8 @@ const toggleMenu = () => {
 };
 
 
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  console.log("main: DOMContentLoaded");////////////////////////////////////////
   
   // Load content common to every page
   await loadBody();
