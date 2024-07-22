@@ -7,18 +7,11 @@ import { logoLink, menuButton } from "./icon.mjs";
  * @return {void} DOM modified
  */
 const addIcons = () => {
-  console.log(`main: addIcons called`);////////////////////////////////////////
   const headerLeft = document.querySelector(".header .left-side");
-  console.log(`m>aI>headerLeft: ${headerLeft}`);////////////////////////////////////////
-  console.log(`m>aI>hL>before: ${headerLeft.innerHTML}`);////////////////////////////////////////
   headerLeft.innerHTML = logoLink();
-  console.log(`m>aI>hL>after: ${headerLeft.innerHTML}`);////////////////////////////////////////
 
   const buttonContainer = document.querySelector(".button-container");
-  console.log(`m>aI>buttonContainer: ${buttonContainer}`);////////////////////////////////////////
-  console.log(`m>aI>bC>before: ${buttonContainer.innerHTML}`);////////////////////////////////////////
   buttonContainer.innerHTML = menuButton();
-  console.log(`m>aI>bC>after: ${buttonContainer.innerHTML}`);////////////////////////////////////////
 }
 
 /**adjustWidth()
@@ -36,25 +29,31 @@ const adjustWidth = () => {
   }
 };
 
+/**getPagePath()
+ * Accommodate addition of the repository name when deployed to Github pages
+ * @return {String} Path without the Github repository name
+ */
+const getPagePath = () => {
+  const repoName = "/wdd131"
+  const path = window.location.pathname;
+  if (path.startsWith(repoName)) return path.substring(repoName.length);
+  return path;
+}
+
 /**loadBody()
  * Load inner HTML to the header, main, and footer elements
  * @return {void} DOM modified
  */
 const loadBody = async () => {
-  console.log("main: loadBody called");////////////////////////////////////////
   const elements = ["header", "main", "footer"];
   try {
     const fetchPromises = elements.map(async (element) => {
-      console.log(`m>lB>fP>${element}`);////////////////////////////////////////
       const response = await fetch(`components/${element}.html`);
-      console.log(`m>lB>fP>${element}>response: ${response.statusText}`);////////////////////////////////////////
       if (!response.ok) {
         throw new Error(`Error loading ${element}: ${response.statusText}`);
       }
       const data = await response.text();
-      console.log(`m>fP>${element}>data: ${response.data}`);////////////////////////////////////////
       document.querySelector(element).innerHTML = data;
-      console.log(`m>fP>${element}>innerHTML ${document.querySelector(element).innerHTML}`);////////////////////////////////////////
     });
     await Promise.all(fetchPromises);
   } catch (error) {
@@ -114,16 +113,13 @@ const toggleMenu = () => {
 
 
 document.addEventListener("DOMContentLoaded", async function () {
-  console.log("main: DOMContentLoaded");////////////////////////////////////////
   
   // Load content common to every page
   await loadBody();
-  console.log(`main: loadBody() run`);////////////////////////////////////////
   await addIcons();
 
   // Run page-specific script
-  const path = window.location.pathname;
-  switch (path) {
+  switch (getPagePath()) {
     case "/7s4e/index.html":
       await loadScript('./index.mjs');
       break;
