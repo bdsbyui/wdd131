@@ -37,7 +37,7 @@ const loadBody = async () => {
   const elements = ["header", "main", "footer"];
   try {
     const fetchPromises = elements.map(async (element) => {
-      const response = await fetch(`/7s4e/components/${element}.html`);
+      const response = await fetch(`components/${element}.html`);
       if (!response.ok) {
         throw new Error(`Error loading ${element}: ${response.statusText}`);
       }
