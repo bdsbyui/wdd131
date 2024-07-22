@@ -37,10 +37,10 @@ export const gamePageLink = () => {
   );
 }
 
-export const logoLink = () => {
+export const logoLink = (pathPrefix) => {
   const title = "home page";
-  const logo = html.iframe(title, "assets/images/logo.svg");
-  return html.linkContainer(title, logo, "index.html");
+  const logo = html.iframe(title, `${pathPrefix}assets/images/logo.svg`);
+  return html.linkContainer(title, logo, `${pathPrefix}index.html`);
 }
 
 export const menuButton = () => {
@@ -51,7 +51,8 @@ export const menuButton = () => {
   return html.button("menu-button", "toggle menu", menuIcon);
 }
 
-export const sitePlanLink = () => {
+export const sitePlanLink = (isIndex=false) => {
+  const pathPrefix = isIndex ? "pages/" : "";
 
   const siteBorder = svg.createRectangle(5, 5, 170, 170);
   const siteBar = svg.createPath("M 5,20 H 175 M 160,5 V 20");
@@ -74,6 +75,6 @@ export const sitePlanLink = () => {
   allElements.forEach(element => sitePlanIcon.appendChild(element));
 
   return html.linkContainer(
-    "site plan", sitePlanIcon, "pages/site-plan.html"
+    "site plan", sitePlanIcon, `${pathPrefix}site-plan.html`
   );
 }

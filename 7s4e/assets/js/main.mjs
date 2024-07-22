@@ -2,13 +2,15 @@
 
 import { logoLink, menuButton } from "./icon.mjs";
 
+const pathPrefix = window.location.pathname.includes("pages") ? "../" : "";
+
 /**addIcons()
  * Add icons common to all pages
  * @return {void} DOM modified
  */
 const addIcons = () => {
   const headerLeft = document.querySelector(".header .hf__left-side");
-  headerLeft.innerHTML = logoLink();
+  headerLeft.innerHTML = logoLink(pathPrefix);
 
   const buttonContainer = document.querySelector(".button-container");
   buttonContainer.innerHTML = menuButton();
@@ -48,7 +50,7 @@ const loadBody = async () => {
   const elements = ["header", "main", "footer"];
   try {
     const fetchPromises = elements.map(async (element) => {
-      const response = await fetch(`components/${element}.html`);
+      const response = await fetch(`${pathPrefix}components/${element}.html`);
       if (!response.ok) {
         throw new Error(`Error loading ${element}: ${response.statusText}`);
       }
@@ -110,7 +112,6 @@ const toggleMenu = () => {
     navContainer.style.display = "none";
   }
 };
-
 
 document.addEventListener("DOMContentLoaded", async function () {
   

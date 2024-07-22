@@ -417,7 +417,7 @@ export const loadHero = () => {
 
   // Append SVG Elements
   households.forEach(element => hero.appendChild(element));
-  document.querySelector("#hero").appendChild(hero);
+  document.querySelector(".hero").appendChild(hero);
 
   // const framePaths = document.querySelectorAll("[id$='path']");
   // setInterval(() => {updateAnimations(framePaths);}, 100);

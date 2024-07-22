@@ -5,12 +5,12 @@ import loadHero from "./hero.mjs";
 
 export default function() {
   const footerRight = document.querySelector(".footer .hf__right-side");
-  footerRight.innerHTML = sitePlanLink();
+  footerRight.innerHTML = sitePlanLink(true);
 
   const navContainer = document.querySelector(".nav-container");
   navContainer.innerHTML = gamePageLink();
 
-  const main = document.querySelector(".main");
-  main.id = "hero";
+  const content = document.querySelector(".content");
+  content.classList.add("hero");
   loadHero();
 }
