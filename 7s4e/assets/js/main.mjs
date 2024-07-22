@@ -7,7 +7,7 @@ import { logoLink, menuButton } from "./icon.mjs";
  * @return {void} DOM modified
  */
 const addIcons = () => {
-  const headerLeft = document.querySelector(".header .left-side");
+  const headerLeft = document.querySelector(".header .hf__left-side");
   headerLeft.innerHTML = logoLink();
 
   const buttonContainer = document.querySelector(".button-container");
@@ -103,11 +103,11 @@ const setupSvgInteraction = (iframe) => {
  * @return {void} DOM modified
  */
 const toggleMenu = () => {
-  const menuContainer = document.querySelector('.menu-container');
-  if (menuContainer.style.display === "none" || !menuContainer.style.display) {
-    menuContainer.style.display = "block";
+  const navContainer = document.querySelector('.nav-container');
+  if (navContainer.style.display === "none" || !navContainer.style.display) {
+    navContainer.style.display = "block";
   } else {
-    menuContainer.style.display = "none";
+    navContainer.style.display = "none";
   }
 };
 

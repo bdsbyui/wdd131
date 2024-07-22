@@ -30,10 +30,9 @@ export const iframe = (label, src) => {
 
 export const linkContainer = (title, element, href) => {
   const content = typeof element === "string" ? element : element.outerHTML;
-  const link = anchor("iconLink", title, content, href);
-  return `
-    <div class="link-container ${title.replace(/\s+/g, '-').toLowerCase()}">
-      ${link}
-    </div>
-  `;
+  const link = anchor(
+    `link-container__icon-link ${title.replace(/\s+/g, '-').toLowerCase()}`, 
+    title, content, href
+  );
+  return `<div class="link-container ">${link}</div>`;
 }

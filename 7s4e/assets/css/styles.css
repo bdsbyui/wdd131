@@ -1,6 +1,5 @@
 /* wdd131/7s4e/assets/css/styles.css */
 
-/* Global Variables */
 :root {
   /* Colors */
   --dark-color: #396e94;
@@ -8,16 +7,17 @@
   --dark-accent: #488737;
   --light-accent: #dcb7a4;
 }
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Structure for HTML elements */
 html, body {
   height: 100%;
 }
+
 header, footer {
   position: absolute;
   z-index: 10;
@@ -26,14 +26,17 @@ header, footer {
   justify-content: center;
   align-items: center;
 }
+
 header {
   top: 0;
   padding-top: 2vh;
 }
+
 footer {
   bottom: 0;
   padding-bottom: 2vh;
 }
+
 main {
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
@@ -43,48 +46,57 @@ main {
   align-items: center;
 }
 
-/* Structure for content classes */
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
 .header, .footer {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
-.left-side, .right-side {
+
+.hf__left-side, .hf__central-div, .hf__right-side {
   display: flex;
   column-gap: 1vw;
 }
-.left-side {
+
+.hf__left-side {
   justify-content: flex-start;
 }
-.right-side {
+
+.hf__central-div {
+  justify-content: center;
+}
+
+.hf__right-side {
   justify-content: flex-end;
 }
 
-.link-container, .button-container {
+.nav-container {
+  display: none;
+}
+
+.link-container, .button-container, .svgObject {
   width: 100px;
   height: 100px;
   display: inline-block;
   align-items: center;
   justify-content: center;
 }
-.menu-container {
-  display: none;
-}
 
-.iconLink {
+.link-container__icon-link {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.svgObject {
-  width: 100px;
-  height: 100px;
-  border: none;
-  display: block;
-  object-fit: contain;
-  overflow: hidden;
+.link-container__icon-link:hover .tooltip {
+  opacity: 1;
 }
 
 .tooltip {
@@ -101,106 +113,34 @@ main {
   pointer-events: none;
 }
 
-.iconLink:hover .tooltip {
-  opacity: 1;
+.menu-button {
+  border-radius: 7px;
+  border-color: var(--light-accent);
+  background-color: var(--light-color);
 }
 
-.menu-icon, .site-plan {
-  float: right;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.hero {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 100vw;
-  max-height: 100vh;
-}
-
-
-
-/* Dynamic Structure */
 .content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
   width: max-content;
   height: auto;
   max-width: 100vw;
   max-height: 100vh;
 }
 
-/* Icon Links */
-button {
-  border-radius: 7px;
-  border-color: var(--light-accent);
-  background-color: var(--light-color);
-}
-/* .iconLink {
-  position: relative;
-  display: inline-block;
-} */
-/* .tooltip {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 5px 10px;
-  border-radius: 5px;
-  background-color: var(--dark-color);
-  color: var(--light-color);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-.iconLink:hover .tooltip {
-  opacity: 1;
-} */
-
-/* SVG Styles */
 .logos {
   fill: transparent;
   stroke: var(--dark-accent, #333);
-  stroke-width: 7;
+  stroke-width: 5;
   stroke-linejoin: round;
 }
-.logos.die {
-  fill: var(--dark-accent, #333);
-  stroke: none;
-}
-.logos.site-plan {
+
+.logos--fill--light-accent {
   fill: var(--light-accent);
 }
-.logos.menu {
-  stroke-width: 16;
-}
-.logos.menu, logos.site-plan {
+
+.logos--linecap--round {
   stroke-linecap: round;
 }
-.frames {
-  fill: transparent;
-  stroke: var(--dark-accent, #333);
-  stroke-width: 7;
-}
-.nameCard {
-  stroke: var(--light-color);
-  fill: var(--light-color);
-  font-size: 75px;
+
+.logos__menu {
+  stroke-width: 19;
 }

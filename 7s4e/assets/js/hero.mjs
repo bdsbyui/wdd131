@@ -35,7 +35,6 @@ const pathCommands = {
 const styles = getComputedStyle(document.documentElement);
 const mainColor = styles.getPropertyValue("--dark-color").trim();
 const accentColor = styles.getPropertyValue("--dark-accent").trim();
-const textColor = styles.getPropertyValue("--light-color").trim();
 
 // Gradients
 const colorStops = [
@@ -49,13 +48,6 @@ const gradientCx = {
 };
 const gradientRadius = portraitOffset / infinityLobeWidth;
 
-// Shapes
-const fill = "transparent";
-const strokeWidth = "7";
-
-// Text
-const fontSize = "75px";
-
 /* ANIMATION VALUES */
 const generationalScaleFactor = 2;
 const times = {
@@ -67,104 +59,65 @@ const times = {
 
 // Portrait frame for single family memembers
 const roundFrame = svg.createShape(
-  svg.createCircle(portraitRadius), fill, accentColor, strokeWidth
-);
+  svg.createCircle(portraitRadius), ["logos", "hero__frame"]);
 
 // Portrait frame for married family memembers
 const infinityFrame = svg.createShape(
-  svg.createPath(pathCommands.infinityLoop), fill, accentColor, strokeWidth
+  svg.createPath(pathCommands.infinityLoop), ["logos", "hero__frame"]
 );
 
 /* FUNCTIONS */
 
-/**getRandomizedTime()
- * Introduce variation with randomized times within deviation of a declared mean
- * @param {Number} mean - Target time in minutes
- * @param {Number} deviation - Allowed deviation from target, in minutes
- * @return {Number} - Randomized time within the deviation of the target time
+/**addHouseholds()
+ * Recursively add objects of SVG elements to arrays of portraits and households
+ * @param {Object} family - Object with parents and children
+ * @param {Object} attributes - Object tracking generation, siblings, and parent
+ * @param {Array} households - Array of household SVG elements and motion paths
+ * @return {void} Modified elements array is passed by reference
  */
-const getRandomizeTime = (mean, deviation) => {
-  return Math.random() * 2 * deviation + mean - deviation;
+const addHouseholds = (family, generation, siblingCount, siblingIndex, parent, 
+  orbitalPeriod, elements) => {
+  
+  // Parent(s) for whose household the SVG group element is created
+  const parents = family.parents;
+  const parentId = parents[0].name.toLowerCase();
+  const household = createHouseholdGroup(parents, parentId, generation);
+  household.setAttribute("id", `${parentId}-group`);
+
+  // Move household group along parent's frame
+  if (siblingCount > 0) {
+    const animations = getMotions(
+      orbitalPeriod, siblingCount, siblingIndex, parent
+    );
+    animations.forEach(animation => household.appendChild(animation));
+  }
+
+  // Retain SVG element
+  elements.push(household);
+
+  // Children for whom addHouseholds() is called
+  const children = family.children;
+  if (children.length) {
+
+    // Update household attributes
+    generation++;
+    siblingCount = children.length;
+    parent = parentId;
+    orbitalPeriod = getRandomizeTime(
+      times.revolution.duration, times.revolution.deviation
+    );
+
+    children.forEach((child, index) => {
+
+      // Update individual attribute
+      siblingIndex = index;
+
+      // Recursive call
+      addHouseholds(child, generation, siblingCount, siblingIndex, parent, 
+        orbitalPeriod, elements);
+    })
+  }
 }
-
-/**getOffset()
- * Get value of offset from origin on the x-axis
- * @param {String} alignment - Portrait placement: left, right, or center
- * @param {Number} generation - Generation number
- * @return {Number} - Offset on x-axis
- */
-const getOffset = (alignment, generation) => {
-  return portraitOffset *
-    (alignment === "center" ? 0 : (alignment === "left" ? -1 : 1)) /
-      Math.pow(generationalScaleFactor, generation);
-}
-
-/**getRotationAttribues()
- * Get attributes for use as parameter in an animateTransform element
- * @param {String} alignment - Portrait placement: left, right, or center
- * @param {Number} generation - Generation number
- * @param {Boolean} isClockwise - Counterclockwise rotation if false
- * @param {Number} duration - Time for complete rotation, in minutes
- * @return {Object} - Attribute and value pairs for animateTransform element
- */
-const getRotationAttributes = (alignment, generation, isClockwise, duration) => 
-  {
-  const offset = generation > 0 ? 2 * getOffset(alignment, generation) : 0;
-  return {
-    "from": `0 ${offset} 0`,
-    "to": `${isClockwise ? 360 : -360} ${offset} 0`,
-    "dur": `${duration * 60}s`,
-    "additive": "sum",
-    "repeatCount": "indefinite"
-  };
-}
-
-/**createPortrait()
- * Create portrait from croped image or of name, align and rotate
- * @param {Object} person - Name and metadata for image of person
- * @param {String} alignment - Portrait placement: left, right, or center
- * @param {Number} duration - Time for complete rotation, in minutes
- * @return {Element} - SVG element
- */
-const createPortait = (person, alignment, duration, generation) => {
-  /* debugging addition of generation */
-
-  // Create portrait from image or of name
-  const portrait = person.portrait ? svg.createImage(
-    `${imagesPath}${person.portrait.id}.${person.portrait.extension}`, 
-    person.portrait.x, 
-    person.portrait.y, 
-    person.portrait.width
-  ) : svg.createText(person.name, fontSize, textColor);
-
-  // Crop and align portrait, and rotate counter-clockwise
-  portrait.setAttribute("clip-path", "url(#clip)");
-  portrait.setAttribute(
-    "transform", `translate(${getOffset(alignment, 0)}, 0)`
-  );
-
-  /* debugging if statement; interior block remains*/
-  if (generation != 0)
-
-    portrait.appendChild(svg.createAnimateTransform(
-    "rotate", getRotationAttributes(alignment, 0, false, duration))
-  );
-
-  return portrait;
-}
-
-/**createMat()
- * Create fill for any gap between portrait and frame
- * @param {String} alignment - Portrait placement: left, right, or center
- * @return {Element} - Circle or path element with radialGradient fill
- */
-const createMat = (alignment) => {
-  const shape = alignment === "center" ? svg.createCircle(portraitRadius) : 
-    (alignment === "left" ? svg.createPath(pathCommands.leftLobe) : 
-      svg.createPath(pathCommands.rightLobe));
-  shape.setAttribute("fill", `url(#${alignment})`);
-  return shape;
-};
 
 /**createHouseholdGroup()
  * Create portrait from croped image or of name, align and rotate
@@ -236,6 +189,133 @@ const createHouseholdGroup = (parents, parentId, generation) => {
   return householdGroup;
 }
 
+/**createMat()
+ * Create fill for any gap between portrait and frame
+ * @param {String} alignment - Portrait placement: left, right, or center
+ * @return {Element} - Circle or path element with radialGradient fill
+ */
+const createMat = (alignment) => {
+  const shape = alignment === "center" ? svg.createCircle(portraitRadius) : 
+    (alignment === "left" ? svg.createPath(pathCommands.leftLobe) : 
+      svg.createPath(pathCommands.rightLobe));
+  shape.setAttribute("fill", `url(#${alignment})`);
+  return shape;
+};
+
+/**createPortrait()
+ * Create portrait from croped image or of name, align and rotate
+ * @param {Object} person - Name and metadata for image of person
+ * @param {String} alignment - Portrait placement: left, right, or center
+ * @param {Number} duration - Time for complete rotation, in minutes
+ * @return {Element} - SVG element
+ */
+const createPortait = (person, alignment, duration, generation) => {
+  /* debugging addition of generation */
+
+  // Create portrait from image or of name
+  const portrait = person.portrait ? svg.createImage(
+    `${imagesPath}${person.portrait.id}.${person.portrait.extension}`, 
+    person.portrait.x, 
+    person.portrait.y, 
+    person.portrait.width
+  ) : svg.createText(person.name, ["hero__name"]);
+
+  // Crop and align portrait, and rotate counter-clockwise
+  portrait.setAttribute("clip-path", "url(#clip)");
+  portrait.setAttribute(
+    "transform", `translate(${getOffset(alignment, 0)}, 0)`
+  );
+
+  /* debugging if statement; interior block remains*/
+  if (generation != 0)
+
+    portrait.appendChild(svg.createAnimateTransform(
+    "rotate", getRotationAttributes(alignment, 0, false, duration))
+  );
+
+  return portrait;
+}
+
+/**getHouseholds()
+ * Calls recursive addHouseholds() function
+ * @return {Array} Returns array modified by addHouseholds()
+ */
+const getHouseholds = () => {
+  let generation = 0;
+  let siblingCount = 0;
+  let siblingIndex = null;
+  let parent = null;
+  let orbitalPeriod = null;
+  const households = [];
+  addHouseholds(family, generation, siblingCount, siblingIndex, parent, 
+    orbitalPeriod, households);
+  return households;
+}
+
+/**getMotions()
+ * Get motions for child households to orbit parent frames, on a staggered 
+ * basis if there are siblings
+ * @param {Number} count - Number of siblings
+ * @param {Number} index - Index of sibling
+ * @param {String} pathId - Path to trace
+ * @return {Array} - Motion elements
+ */
+function getMotions(duration, count, index, pathId) {
+  const motions = [];
+  // if (index > 0) {
+  //   motions.push(svg.createAnimateMotion(
+  //     getStaggeredStartAttributes(duration, index, count), 
+  //     `${pathId}-path`
+  // ));}
+  motions.push(svg.createAnimateMotion(
+    getSteadyStateAttributes(duration, index, count),
+    `${pathId}-path`
+  ));
+  return motions;
+}
+
+/**getOffset()
+ * Get value of offset from origin on the x-axis
+ * @param {String} alignment - Portrait placement: left, right, or center
+ * @param {Number} generation - Generation number
+ * @return {Number} - Offset on x-axis
+ */
+const getOffset = (alignment, generation) => {
+  return portraitOffset *
+    (alignment === "center" ? 0 : (alignment === "left" ? -1 : 1)) /
+      Math.pow(generationalScaleFactor, generation);
+}
+
+/**getRandomizedTime()
+ * Introduce variation with randomized times within deviation of a declared mean
+ * @param {Number} mean - Target time in minutes
+ * @param {Number} deviation - Allowed deviation from target, in minutes
+ * @return {Number} - Randomized time within the deviation of the target time
+ */
+const getRandomizeTime = (mean, deviation) => {
+  return Math.random() * 2 * deviation + mean - deviation;
+}
+
+/**getRotationAttribues()
+ * Get attributes for use as parameter in an animateTransform element
+ * @param {String} alignment - Portrait placement: left, right, or center
+ * @param {Number} generation - Generation number
+ * @param {Boolean} isClockwise - Counterclockwise rotation if false
+ * @param {Number} duration - Time for complete rotation, in minutes
+ * @return {Object} - Attribute and value pairs for animateTransform element
+ */
+const getRotationAttributes = (alignment, generation, isClockwise, duration) => 
+  {
+  const offset = generation > 0 ? 2 * getOffset(alignment, generation) : 0;
+  return {
+    "from": `0 ${offset} 0`,
+    "to": `${isClockwise ? 360 : -360} ${offset} 0`,
+    "dur": `${duration * 60}s`,
+    "additive": "sum",
+    "repeatCount": "indefinite"
+  };
+}
+
 /**getStaggeredStartAttributes()
  * Get attributes for use as parameter in animateMotion element
  * @param {Number} duration - Time to revolve around parent, in minutes
@@ -269,95 +349,6 @@ const getSteadyStateAttributes = (duration, index, total) => {
     "fill": "freeze",
     "additive": "sum"
   };
-}
-
-/**getMotions()
- * Get motions for child households to orbit parent frames, on a staggered 
- * basis if there are siblings
- * @param {Number} count - Number of siblings
- * @param {Number} index - Index of sibling
- * @param {String} pathId - Path to trace
- * @return {Array} - Motion elements
- */
-function getMotions(duration, count, index, pathId) {
-  const motions = [];
-  // if (index > 0) {
-  //   motions.push(svg.createAnimateMotion(
-  //     getStaggeredStartAttributes(duration, index, count), 
-  //     `${pathId}-path`
-  // ));}
-  motions.push(svg.createAnimateMotion(
-    getSteadyStateAttributes(duration, index, count),
-    `${pathId}-path`
-  ));
-  return motions;
-}
-
-/**addHouseholds()
- * Recursively add objects of SVG elements to arrays of portraits and households
- * @param {Object} family - Object with parents and children
- * @param {Object} attributes - Object tracking generation, siblings, and parent
- * @param {Array} households - Array of household SVG elements and motion paths
- * @return {void} Modified elements array is passed by reference
- */
-const addHouseholds = (family, generation, siblingCount, siblingIndex, parent, 
-  orbitalPeriod, elements) => {
-  
-  // Parent(s) for whose household the SVG group element is created
-  const parents = family.parents;
-  const parentId = parents[0].name.toLowerCase();
-  const household = createHouseholdGroup(parents, parentId, generation);
-  household.setAttribute("id", `${parentId}-group`);
-
-  // Move household group along parent's frame
-  if (siblingCount > 0) {
-    const animations = getMotions(
-      orbitalPeriod, siblingCount, siblingIndex, parent
-    );
-    animations.forEach(animation => household.appendChild(animation));
-  }
-
-  // Retain SVG element
-  elements.push(household);
-
-  // Children for whom addHouseholds() is called
-  const children = family.children;
-  if (children.length) {
-
-    // Update household attributes
-    generation++;
-    siblingCount = children.length;
-    parent = parentId;
-    orbitalPeriod = getRandomizeTime(
-      times.revolution.duration, times.revolution.deviation
-    );
-
-    children.forEach((child, index) => {
-
-      // Update individual attribute
-      siblingIndex = index;
-
-      // Recursive call
-      addHouseholds(child, generation, siblingCount, siblingIndex, parent, 
-        orbitalPeriod, elements);
-    })
-  }
-}
-
-/**getHouseholds()
- * Calls recursive addHouseholds() function
- * @return {Array} Returns array modified by addHouseholds()
- */
-const getHouseholds = () => {
-  let generation = 0;
-  let siblingCount = 0;
-  let siblingIndex = null;
-  let parent = null;
-  let orbitalPeriod = null;
-  const households = [];
-  addHouseholds(family, generation, siblingCount, siblingIndex, parent, 
-    orbitalPeriod, households);
-  return households;
 }
 
 /**updateAnimations()

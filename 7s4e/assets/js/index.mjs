@@ -4,11 +4,11 @@ import { gamePageLink, sitePlanLink } from "./icon.mjs";
 import loadHero from "./hero.mjs";
 
 export default function() {
-  const footerRight = document.querySelector(".footer .right-side");
+  const footerRight = document.querySelector(".footer .hf__right-side");
   footerRight.innerHTML = sitePlanLink();
 
-  const menuContainer = document.querySelector(".menu-container");
-  menuContainer.innerHTML = gamePageLink();
+  const navContainer = document.querySelector(".nav-container");
+  navContainer.innerHTML = gamePageLink();
 
   const main = document.querySelector(".main");
   main.id = "hero";

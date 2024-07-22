@@ -108,14 +108,16 @@ export function createRectangle(x, y, width, height, rx=0, ry=0) {
 }
 
 export function createShape(
-  shapeElement, fill="black", stroke=fill, strokeWidth=1
+  shapeElement, classes, fill="black", stroke=fill, strokeWidth=1
 ) {
   const parameters = {
-    "fill": fill,  "stroke": stroke, "stroke-width": strokeWidth
+    "fill": fill, "stroke": stroke, "stroke-width": strokeWidth
   };
   Object.entries(parameters).forEach(([key, value]) => {
     shapeElement.setAttribute(key, value);
   });
+  if (classes) {
+    classes.forEach(className => shapeElement.classList.add(className));}
   return shapeElement;
 }
 
@@ -147,7 +149,7 @@ export function createSVG(
 }
 
 export function createText(
-  text, fontSize="20px", fill="black", stroke=fill, textAnchor="middle", 
+  text, classes, fontSize="20px", fill="black", stroke=fill, textAnchor="middle", 
   alignmentBaseline="middle"
 ) {
   const element = createElement("text");
@@ -158,6 +160,8 @@ export function createText(
   Object.entries(parameters).forEach(([key, value]) => {
     element.setAttribute(key, value);
   });
+  if (classes) {
+    classes.forEach(className => element.classList.add(className));}
   element.textContent = text;
   return element;
 }
