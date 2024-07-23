@@ -1,7 +1,7 @@
 /* wdd131/7s4e/assets/js/hero.js */
 
 import * as svg from "./svg.mjs";
-import getFamilyObject from "./utils.mjs";
+import getFamilyObject from "./data.mjs";
 
 /* IMPORTED OBJECT */
 const family = getFamilyObject();

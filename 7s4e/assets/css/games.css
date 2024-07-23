@@ -1,0 +1,149 @@
+/* wdd131/7s4e/assets/css/games.css */
+
+.games {
+  flex-direction: column;
+}
+
+.minesweeper {
+  --outset-color: #ddd;
+  --inset-color: #ccc;
+  --display-color: #333;
+  --color-one: #00f;
+  --color2: #080;
+  --color3: #f00;
+  --color4: #008;
+  --color5: #800;
+  --color6: #088;
+  --color7: #808;
+  --color8: #888;
+}
+
+.minesweeper.container {
+  padding: 1vw;
+  border: 3px solid var(--dark-accent);
+  border-radius: 7px;
+  background-color: var(--light-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.minesweeper.container.lost {
+  background-color: red;
+}
+
+.minesweeper.container.won {
+  background-color: green;
+}
+
+.minesweeper.board {
+  height: 440px;
+  width: 360px;
+  border-style: outset;
+  background-color: var(--outset-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.minesweeper.dashboard {
+  height: 60px;
+  width: 320px;
+  padding: 1vw;
+  border-style: inset;
+  background-color: var(--inset-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.minesweeper.flags-section, 
+.minesweeper.time-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.minesweeper.dashboard-label {
+  padding: 0.5vw;
+  border: 1px solid var(--display-color);
+}
+
+.minesweeper.dashboard-display {
+  height: 30px;
+  width: 50px;
+  padding: 0.5vw;
+  background-color: var(--display-color);
+  color: red;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: x-large;
+  font-weight: bolder;
+}
+
+.minesweeper.reset-button {
+  font-size: 25px;
+}
+
+.minesweeper.grid {
+  height: 320px;
+  width: 320px;
+  box-sizing: content-box;
+  border-style: inset;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--inset-color);
+}
+
+.minesweeper.square {
+  height: 20px;
+  width: 20px;
+  border-style: outset;
+  border-color: var(--outset-color);
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.minesweeper.checked {
+  border-style: none;
+}
+
+.minesweeper.checked.bomb {
+  background-color: red;
+}
+
+.minesweeper.one {
+  color: var(--color-one);
+}
+
+.minesweeper.two {
+  color: var(--color2);
+}
+
+.minesweeper.three {
+  color: var(--color3);
+}
+
+.minesweeper.four{
+  color: var(--color4);
+}
+
+.minesweeper.five{
+  color: var(--color5);
+}
+
+.minesweeper.six{
+  color: var(--color6);
+}
+
+.minesweeper.seven{
+  color: var(--color7);
+}
+
+.minesweeper.eight{
+  color: var(--color8);
+}

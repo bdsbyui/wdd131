@@ -4,7 +4,8 @@ import { sitePlanLink } from "./icon.mjs";
 import loadMinesweeper from "./minesweeper.mjs";
 
 const loadContent= () => {
-  const pageContent = document.querySelector(".content");
+  const gameContent = document.querySelector(".content");
+  gameContent.classList.add("games");
   
   const gameTitle = document.createElement("h1");
   gameTitle.classList.add("game-title");
@@ -12,8 +13,12 @@ const loadContent= () => {
   const gameSpace = document.createElement("div");
   gameSpace.classList.add("game-space");
 
-  pageContent.appendChild(gameTitle);
-  pageContent.appendChild(gameSpace);
+  const gameSettings = document.createElement("div");
+  gameSettings.classList.add("game-settings");
+
+  gameContent.appendChild(gameTitle);
+  gameContent.appendChild(gameSpace);
+  gameContent.appendChild(gameSettings);
 }
 
 export default function() {
@@ -23,4 +28,16 @@ export default function() {
   loadContent();
 
   loadMinesweeper();
+}
+
+export const inititializeGame = (title, className) => {
+  const gameTitle = document.querySelector(".game-title");
+  gameTitle.classList.add(className);
+  gameTitle.innerHTML = title;
+
+  const gameSpace = document.querySelector(".game-space");
+  gameSpace.classList.add(className);
+
+  const gameSettings = document.querySelector(".game-settings");
+  gameSettings.classList.add(className);
 }
